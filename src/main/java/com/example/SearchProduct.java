@@ -3,11 +3,11 @@ package com.example;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductMap {
+public class SearchProduct {
 
     Map<String, Product> productMap;
 
-    ProductMap(){
+    SearchProduct(){
 
         productMap= new HashMap<>();
 
