@@ -7,3 +7,6 @@ target/
 old/
 used/
 sandbox/
+
+*.iml
+.idea/
