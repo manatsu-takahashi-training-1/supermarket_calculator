@@ -3,12 +3,12 @@ package com.example;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 class TaxTest {
     @Nested
-    public class テスト１ {
+    public class ちゃんと計算できているかテスト {
         @Test
-        public void テスト() {
+        public void _100円を入れて108円になってるかな() {
             Tax test = new Tax(100);
             int actual = test.getTaxIncludedPrice(100);
             assertEquals(108,actual);
