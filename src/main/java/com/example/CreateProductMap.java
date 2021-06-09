@@ -5,21 +5,22 @@ import java.util.Map;
 
 public class CreateProductMap {
 
-    Map<Product,Integer> createProductMap;
+    private final Map<Product,Integer> productMap;
 
     CreateProductMap(){
-        createProductMap = new HashMap<>();
+        productMap = new HashMap<>();
     }
 
-    public Map<Product,Integer> create(Map<String,Integer> productMap){
+    public Map<Product,Integer> create(Map<String,Integer> purchaseMap){
 
-        SearchProduct searchProduct = new SearchProduct();
-        for (Map.Entry<String, Integer> entry : productMap.entrySet()){
-            Product product = searchProduct.searchProduct(entry.getKey());
-            createProductMap.put(product,entry.getValue());
+        SearchProduct s = new SearchProduct();
+
+        for (Map.Entry<String, Integer> e : purchaseMap.entrySet()){
+            Product product = s.search(e.getKey());
+            productMap.put(product,e.getValue());
         }
 
-        return createProductMap;
+        return productMap;
     }
 
 }

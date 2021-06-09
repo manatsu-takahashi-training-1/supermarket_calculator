@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class SearchProduct {
 
-    Map<String, Product> productMap;
+    private final Map<String, Product> productMap;
 
     SearchProduct(){
 
@@ -18,7 +18,7 @@ public class SearchProduct {
 
     }
 
-    public Product searchProduct(String productName) throws NullPointerException{
+    public Product search(String productName) throws NullPointerException{
         return productMap.get(productName);
     }
 

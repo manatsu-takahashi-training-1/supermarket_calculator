@@ -29,8 +29,6 @@ public class CreateProductMapTest {
             Map <Product,Integer> productMap = createProductMap.create(purchaseMap);
 
             Map<String,Integer> verificationMap = new HashMap<>();
-
-
             ArrayList<String> nameVerificationList = new ArrayList<>();
             ArrayList<Integer> numVerificationList = new ArrayList<>();
 
