@@ -1,0 +1,9 @@
+tags
+.*
+!.gitignore
+*.out
+.DS_Store
+target/
+old/
+used/
+sandbox/
