@@ -18,7 +18,6 @@ public class DiscountTest {
     void りんご3個で20円出力する() {
         purchasedProductMap = new HashMap<>();
         purchasedProductMap.put(Product.APPLE, 3);
-
         int discountValue = discount.calcDiscount(purchasedProductMap);
         assertEquals(-20, discountValue);
     }
