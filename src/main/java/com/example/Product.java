@@ -1,7 +1,7 @@
 package com.example;
 
 public enum Product {
-  
+
     APPLE("apple",100),
     ORANGE("orange",40),
     GRAPE("grape",150),
