@@ -18,7 +18,7 @@ public class Main {
         totalAmountWithoutTax += (new Discount()).calcDiscount(productMap);
         // System.out.println(totalAmountWithoutTax);
         int totalAmount = (new Tax(0)).getTaxIncludedPrice(totalAmountWithoutTax);
-        // System.out.println(totalAmount);
+        System.out.println(totalAmount);
 
     }
 }
