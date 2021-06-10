@@ -25,7 +25,6 @@ public class DiscountTest {
     @Test
     void りんご0個で0円出力する() {
         purchasedProductMap = new HashMap<>();
-        purchasedProductMap.put(Product.APPLE, 0);
 
         int discountValue = discount.calcDiscount(purchasedProductMap);
         assertEquals(0, discountValue);
@@ -56,5 +55,40 @@ public class DiscountTest {
 
         int discountValue = discount.calcDiscount(purchasedProductMap);
         assertEquals(-40, discountValue);
+    }
+    @Test
+    void のり弁当とコーヒーを買って20円引きされている() {
+        purchasedProductMap = new HashMap<>();
+        purchasedProductMap.put(Product.COFFEE,1);
+        purchasedProductMap.put(Product.NORI_BENTO,1);
+
+        int discountValue = discount.calcDiscount(purchasedProductMap);
+        assertEquals(-20, discountValue);
+    }
+    @Test
+    void しゃけ弁当とおちゃを買って20円引きされている() {
+        purchasedProductMap = new HashMap<>();
+        purchasedProductMap.put(Product.TEA,1);
+        purchasedProductMap.put(Product.SALMON_BENTO,1);
+
+        int discountValue = discount.calcDiscount(purchasedProductMap);
+        assertEquals(-20, discountValue);
+    }
+    @Test
+    void しゃけ弁当だけ買って0円引きされている() {
+        purchasedProductMap = new HashMap<>();
+        purchasedProductMap.put(Product.SALMON_BENTO,1);
+
+        int discountValue = discount.calcDiscount(purchasedProductMap);
+        assertEquals(0, discountValue);
+    }
+
+    @Test
+    void のり弁当だけ買って0円引きされている() {
+        purchasedProductMap = new HashMap<>();
+        purchasedProductMap.put(Product.NORI_BENTO,1);
+
+        int discountValue = discount.calcDiscount(purchasedProductMap);
+        assertEquals(0, discountValue);
     }
 }

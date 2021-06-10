@@ -12,36 +12,44 @@ public class CalculatorTest {
 
     private Calculator calculator;
     private Map<Product, Integer> purchasedProductMap;
+    private Map<String, Integer> purchasedProductStringMap;
+    private CreateProductMap createProductMap;
 
     @BeforeEach
     public void prepare() {
-        this.calculator          = new Calculator();
-        this.purchasedProductMap = new HashMap<>();
+        this.calculator                = new Calculator();
+        this.purchasedProductMap       = new HashMap<>();
+        this.createProductMap          = new CreateProductMap();
+        this.purchasedProductStringMap = new HashMap<>();
+
     }
 
     //lemma 1
     @Test
-    public void returns_100_when_1_apple() {
-        purchasedProductMap.put(Product.APPLE, 1);
-        assertEquals(calculator.calculate(purchasedProductMap), 100);
+    public void returns_108_when_1_apple() {
+        //(100*1)*1.08 = 108
+        purchasedProductStringMap.put("apple", 1);
+        assertEquals(calculator.calculate(purchasedProductStringMap), 108);
     }
 
     //lemma 2
     @Test
-    public void returns_290_when_1_apple_1_orange_1_grape() {
-        purchasedProductMap.put(Product.APPLE, 1);
-        purchasedProductMap.put(Product.ORANGE, 1);
-        purchasedProductMap.put(Product.GRAPE, 1);
-        assertEquals(calculator.calculate(purchasedProductMap), 290);
+    public void returns_313_when_1_apple_1_orange_1_grape() {
+        //(100*1 + 40*1 +150*1)*1.08 = 313
+        purchasedProductStringMap.put("apple", 1);
+        purchasedProductStringMap.put("orange", 1);
+        purchasedProductStringMap.put("grape", 1);
+        assertEquals(calculator.calculate(purchasedProductStringMap), 313);
     }
 
     //main
     @Test
-    public void returns_1290_when_2_apple_1_orange_3_noribento() {
-        purchasedProductMap.put(Product.APPLE, 2);
-        purchasedProductMap.put(Product.ORANGE, 1);
-        purchasedProductMap.put(Product.NORI_BENTO, 3);
-        assertEquals(calculator.calculate(purchasedProductMap), 1290);
+    public void returns_1587_when_4_apple_1_orange_3_noribento() {
+        //(100*4-20) + 40*1 + 350*3 = 1587
+        purchasedProductStringMap.put("apple", 4);
+        purchasedProductStringMap.put("orange", 1);
+        purchasedProductStringMap.put("noriBento", 3);
+        assertEquals(calculator.calculate(purchasedProductStringMap), 1587);
     }
 
 // 1. りんご 100円

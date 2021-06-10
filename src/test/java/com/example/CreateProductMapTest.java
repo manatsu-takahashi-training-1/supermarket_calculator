@@ -28,21 +28,14 @@ public class CreateProductMapTest {
             CreateProductMap createProductMap = new CreateProductMap();
             Map <Product,Integer> productMap = createProductMap.create(purchaseMap);
 
-            Map<String,Integer> verificationMap = new HashMap<>();
-            ArrayList<String> nameVerificationList = new ArrayList<>();
-            ArrayList<Integer> numVerificationList = new ArrayList<>();
+            Map <Product,Integer> verificationMap = new HashMap<>();
+            verificationMap.put(Product.APPLE,2);
+            verificationMap.put(Product.ORANGE,3);
+            verificationMap.put(Product.GRAPE,0);
 
-            nameVerificationList.add("apple");
-            nameVerificationList.add("orange");
 
-            numVerificationList.add(2);
-            numVerificationList.add(3);
-
-            int counter = 0;
-            for (Map.Entry<Product, Integer> entry : productMap.entrySet()){
-                assertEquals(nameVerificationList.get(counter),entry.getKey().getProductName());
-                assertEquals(numVerificationList.get(counter),entry.getValue());
-                counter++;
+            for (final Product product : verificationMap.keySet()){
+                assertEquals(verificationMap.get(product),productMap.getOrDefault(product,0));
             }
 
         }

@@ -1,7 +1,6 @@
 package com.example;
 
 public class Tax {
-    //TODO 合計金額クラスを生成する？他のクラスとどうやってつながるんやろ
     int beforeTax;
 
     // Here is the constructor
