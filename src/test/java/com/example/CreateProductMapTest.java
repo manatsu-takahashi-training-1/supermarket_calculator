@@ -42,10 +42,10 @@ public class CreateProductMapTest {
             taxVerificationList.add(108);
 
             int counter = 0;
-            for (Map.Entry<Product, Integer> entry : productMap.entrySet()){
-                assertEquals(nameVerificationList.get(counter),entry.getKey().getProductName());
-                assertEquals(numVerificationList.get(counter),entry.getValue());
-                assertEquals(taxVerificationList.get(counter),entry.getKey().getTax());
+            for (final Product product : productMap.keySet()){
+                assertEquals(nameVerificationList.get(counter),product.getProductName());
+                assertEquals(numVerificationList.get(counter),productMap.get(product));
+                assertEquals(taxVerificationList.get(counter),product.getTax());
                 counter++;
             }
 
