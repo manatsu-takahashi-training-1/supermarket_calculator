@@ -3,15 +3,15 @@ package com.example;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class ProductMapTest {
+public class SearchProductTest {
 
     @Test
     void Apple_was_bought(){
 
         String productName = "apple";
         SearchProduct searchProduct = new SearchProduct();
-        assertEquals("apple",searchProduct.searchProduct(productName).getProductName());
-        assertEquals(100,searchProduct.searchProduct(productName).getPrice());
+        assertEquals("apple",searchProduct.search(productName).getProductName());
+        assertEquals(100,searchProduct.search(productName).getPrice());
 
     }
 
@@ -20,8 +20,8 @@ public class ProductMapTest {
 
         String productName = "orange";
         SearchProduct searchProduct = new SearchProduct();
-        assertEquals("orange",searchProduct.searchProduct(productName).getProductName());
-        assertEquals(40,searchProduct.searchProduct(productName).getPrice());
+        assertEquals("orange",searchProduct.search(productName).getProductName());
+        assertEquals(40,searchProduct.search(productName).getPrice());
 
     }
 

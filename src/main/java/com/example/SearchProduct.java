@@ -3,11 +3,11 @@ package com.example;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductMap {
+public class SearchProduct {
 
-    Map<String, Product> productMap;
+    private final Map<String, Product> productMap;
 
-    ProductMap(){
+    SearchProduct(){
 
         productMap= new HashMap<>();
 
@@ -18,7 +18,7 @@ public class ProductMap {
 
     }
 
-    public Product searchProduct(String productName) throws NullPointerException{
+    public Product search(String productName) throws NullPointerException{
         return productMap.get(productName);
     }
 

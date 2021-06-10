@@ -1,10 +1,10 @@
 package com.example;
 
 public class Tax {
-    //合計金額クラスを生成する？他のクラスとどうやってつながるんやろ
+    //TODO 合計金額クラスを生成する？他のクラスとどうやってつながるんやろ
     int beforeTax;
-    int afterTax;
 
+    // Here is the constructor
     public Tax(int beforeTax) {
         this.beforeTax = beforeTax;
         if (beforeTax < 0) {
@@ -12,9 +12,11 @@ public class Tax {
         }
     }
 
+    //calculating the sales tax here.
     public int getTaxIncludedPrice(int beforeTax) {
-        double temp = (double)beforeTax * 1.08;  // Sales tax = 8%
-        int afterTax = (int)temp;
+        final int taxRate = 108;    // Sales tax = 8%
+        int temp = beforeTax * taxRate / 100;
+        int afterTax = temp;       //apply tax
         return afterTax;
     }
 
