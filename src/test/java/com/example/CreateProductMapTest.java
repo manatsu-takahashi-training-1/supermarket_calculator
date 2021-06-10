@@ -38,13 +38,14 @@ public class CreateProductMapTest {
             numVerificationList.add(2);
             numVerificationList.add(3);
 
-            numVerificationList.add(108);
-            numVerificationList.add(108);
+            taxVerificationList.add(108);
+            taxVerificationList.add(108);
 
             int counter = 0;
             for (Map.Entry<Product, Integer> entry : productMap.entrySet()){
                 assertEquals(nameVerificationList.get(counter),entry.getKey().getProductName());
                 assertEquals(numVerificationList.get(counter),entry.getValue());
+                assertEquals(taxVerificationList.get(counter),entry.getKey().getTax());
                 counter++;
             }
 
