@@ -82,4 +82,13 @@ public class DiscountTest {
         int discountValue = discount.calcDiscount(purchasedProductMap);
         assertEquals(0, discountValue);
     }
+
+    @Test
+    void のり弁当だけ買って0円引きされている() {
+        purchasedProductMap = new HashMap<>();
+        purchasedProductMap.put(Product.NORI_BENTO,1);
+
+        int discountValue = discount.calcDiscount(purchasedProductMap);
+        assertEquals(0, discountValue);
+    }
 }
