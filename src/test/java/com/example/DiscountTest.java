@@ -120,4 +120,25 @@ public class DiscountTest {
         int discountValue = discount.calcDiscount(purchasedProductMap);
         assertEquals(0, discountValue);
     }
+    @Nested
+    class りんご{
+        @Test
+        void りんご10個で0円出力する() {
+            purchasedProductMap = new HashMap<>();
+            purchasedProductMap.put(Product.APPLE, 10);
+
+            int discountValue = discount.calcDiscount(purchasedProductMap);
+            assertEquals(-60, discountValue);
+        }
+
+        @Test
+        void りんご11個でー100円出力する() {
+            purchasedProductMap = new HashMap<>();
+            purchasedProductMap.put(Product.APPLE, 11);
+
+            int discountValue = discount.calcDiscount(purchasedProductMap);
+            assertEquals(-100, discountValue);
+        }
+    }
+
 }

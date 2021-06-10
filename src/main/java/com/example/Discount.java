@@ -40,7 +40,7 @@ public class Discount {
 
     private Map<Product, Integer> defaultDiscount(Map<Product, Integer> purchasedProductMap, Map<Product, Integer> discountedProductMap) {
         for (Product product : purchasedProductMap.keySet()){
-            Integer updateDiscounteValue = Math.min(discountedProductMap.get(product), -purchasedProductMap.get(product)/11);
+            Integer updateDiscounteValue = Math.min(discountedProductMap.get(product), -purchasedProductMap.get(product)/11 *product.getPrice());
             discountedProductMap.replace(product,updateDiscounteValue);
         }
         return discountedProductMap;
@@ -50,7 +50,7 @@ public class Discount {
         int price = Product.APPLE.getPrice();
         int num = purchasedProductMap.getOrDefault(Product.APPLE,0);
         int discountSetPrice = - 20 * (num/3);
-        Integer updateDiscounteValue =  Math.min(discountSetPrice,discountedProductMap.getOrDefault(Product.APPLE, 0));
+        Integer updateDiscounteValue =  Math.min(discountSetPrice, discountedProductMap.getOrDefault(Product.APPLE, 0));
         discountedProductMap.replace(Product.APPLE,updateDiscounteValue);
         return discountedProductMap;
     }
