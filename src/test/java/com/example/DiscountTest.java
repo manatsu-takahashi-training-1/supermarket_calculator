@@ -91,4 +91,33 @@ public class DiscountTest {
         int discountValue = discount.calcDiscount(purchasedProductMap);
         assertEquals(0, discountValue);
     }
+
+    @Test
+    void タバコ10個とライター1つを買って100円引きされている() {
+        purchasedProductMap = new HashMap<>();
+        purchasedProductMap.put(Product.CIGARETTE, 10);
+        purchasedProductMap.put(Product.LIGHTER, 1);
+
+        int discountValue = discount.calcDiscount(purchasedProductMap);
+        assertEquals(-100, discountValue);
+    }
+
+    @Test
+    void メンソールタバコ10個だけ買って0円引きされている() {
+        purchasedProductMap = new HashMap<>();
+        purchasedProductMap.put(Product.MENTHOL_CIGARETTE, 10);
+
+        int discountValue = discount.calcDiscount(purchasedProductMap);
+        assertEquals(0, discountValue);
+    }
+
+    @Test
+    void メンソールタバコ9個とライターを1個買って0円引きされている() {
+        purchasedProductMap = new HashMap<>();
+        purchasedProductMap.put(Product.MENTHOL_CIGARETTE, 9);
+        purchasedProductMap.put(Product.LIGHTER, 1);
+
+        int discountValue = discount.calcDiscount(purchasedProductMap);
+        assertEquals(0, discountValue);
+    }
 }
