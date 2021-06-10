@@ -19,7 +19,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
     static JPanel panel1;
     static JPanel panel2;
  
-    static CalculatorMock calculator;
+    static Calculator calculator;
 
     static Map<String, Integer> cart;
 
@@ -28,22 +28,34 @@ public class CalculatorGUI extends JFrame implements ActionListener {
     static Map<String, String> iconPathMap;
 
     public CalculatorGUI() {
-        this.calculator = new CalculatorMock();
+        this.calculator = new Calculator();
         this.cart = new HashMap<>();
         this.subtotalEntryMap = new HashMap<>();
 
         this.iconPathMap = new HashMap<>();
-        iconPathMap.put("りんご", "./icons/apple_22.png");
-        iconPathMap.put("みかん", "./icons/orange_22.png");
-        iconPathMap.put("ぶどう", "./icons/grapes_22.png");
-        iconPathMap.put("のり弁", "./icons/nori_ben_22.png");
-        iconPathMap.put("しゃけ弁", "./icons/sake_ben_22.png");
-        iconPathMap.put("タバコ", "./icons/cigarette_22.png");
-        iconPathMap.put("メンソールタバコ", "./icons/menthol_cigarette_22.png");
-        iconPathMap.put("ライター", "./icons/lighter_22.png");
-        iconPathMap.put("お茶", "./icons/tea_22.png");
-        iconPathMap.put("コーヒー", "./icons/coffee_22.png");
-        iconPathMap.put("光のハンバーガー", "./icons/hamburger_22.png");
+//         iconPathMap.put("りんご", "./icons/apple_22.png");
+//         iconPathMap.put("みかん", "./icons/orange_22.png");
+//         iconPathMap.put("ぶどう", "./icons/grapes_22.png");
+//         iconPathMap.put("のり弁", "./icons/nori_ben_22.png");
+//         iconPathMap.put("しゃけ弁", "./icons/sake_ben_22.png");
+//         iconPathMap.put("タバコ", "./icons/cigarette_22.png");
+//         iconPathMap.put("メンソールタバコ", "./icons/menthol_cigarette_22.png");
+//         iconPathMap.put("ライター", "./icons/lighter_22.png");
+//         iconPathMap.put("お茶", "./icons/tea_22.png");
+//         iconPathMap.put("コーヒー", "./icons/coffee_22.png");
+//         iconPathMap.put("光のハンバーガー", "./icons/hamburger_22.png");
+
+        iconPathMap.put("apple", "./icons/apple_22.png");
+        iconPathMap.put("orange", "./icons/orange_22.png");
+        iconPathMap.put("grape", "./icons/grapes_22.png");
+        iconPathMap.put("noriBento", "./icons/nori_ben_22.png");
+        iconPathMap.put("salmonBento", "./icons/sake_ben_22.png");
+        iconPathMap.put("cigarette", "./icons/cigarette_22.png");
+        iconPathMap.put("mentholCigarette", "./icons/menthol_cigarette_22.png");
+        iconPathMap.put("lighter", "./icons/lighter_22.png");
+        iconPathMap.put("tea", "./icons/tea_22.png");
+        iconPathMap.put("coffee", "./icons/coffee_22.png");
+        iconPathMap.put("flashHamburger", "./icons/hamburger_22.png");
     }
 
     private static class subtotalEntry {
@@ -148,17 +160,29 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         List<JButton> productButtonList = null;
         try {
             productButtonList = List.of(
-                new JButton("<html>りんご<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/apple.png")))),
-                new JButton("<html>みかん<br/>(40円)</html>", new ImageIcon(ImageIO.read(new File("./icons/orange.png")))),
-                new JButton("<html>ぶどう<br/>(150円)</html>", new ImageIcon(ImageIO.read(new File("./icons/grapes.png")))),
-                new JButton("<html>のり弁<br/>(350円)</html>", new ImageIcon(ImageIO.read(new File("./icons/nori_ben.png")))),
-                new JButton("<html>しゃけ弁<br/>(400円)</html>", new ImageIcon(ImageIO.read(new File("./icons/sake_ben.png")))),
-                new JButton("<html>タバコ<br/>(420円)</html>", new ImageIcon(ImageIO.read(new File("./icons/cigarette.png")))),
-                new JButton("<html>メンソールタバコ<br/>(440円)</html>", new ImageIcon(ImageIO.read(new File("./icons/menthol_cigarette.png")))),
-                new JButton("<html>ライター<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/lighter.png")))),
-                new JButton("<html>お茶<br/>(80円)</html>", new ImageIcon(ImageIO.read(new File("./icons/tea.png")))),
-                new JButton("<html>コーヒー<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/coffee.png")))),
-                new JButton("<html>光のハンバーガー<br/>(？？？円)</html>", new ImageIcon(ImageIO.read(new File("./icons/hamburger.png"))))
+//                 new JButton("<html>りんご<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/apple.png")))),
+//                 new JButton("<html>みかん<br/>(40円)</html>", new ImageIcon(ImageIO.read(new File("./icons/orange.png")))),
+//                 new JButton("<html>ぶどう<br/>(150円)</html>", new ImageIcon(ImageIO.read(new File("./icons/grapes.png")))),
+//                 new JButton("<html>のり弁<br/>(350円)</html>", new ImageIcon(ImageIO.read(new File("./icons/nori_ben.png")))),
+//                 new JButton("<html>しゃけ弁<br/>(400円)</html>", new ImageIcon(ImageIO.read(new File("./icons/sake_ben.png")))),
+//                 new JButton("<html>タバコ<br/>(420円)</html>", new ImageIcon(ImageIO.read(new File("./icons/cigarette.png")))),
+//                 new JButton("<html>メンソールタバコ<br/>(440円)</html>", new ImageIcon(ImageIO.read(new File("./icons/menthol_cigarette.png")))),
+//                 new JButton("<html>ライター<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/lighter.png")))),
+//                 new JButton("<html>お茶<br/>(80円)</html>", new ImageIcon(ImageIO.read(new File("./icons/tea.png")))),
+//                 new JButton("<html>コーヒー<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/coffee.png")))),
+//                 new JButton("<html>光のハンバーガー<br/>(？？？円)</html>", new ImageIcon(ImageIO.read(new File("./icons/hamburger.png"))))
+
+                new JButton("<html>apple<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/apple.png")))),
+                new JButton("<html>orange<br/>(40円)</html>", new ImageIcon(ImageIO.read(new File("./icons/orange.png")))),
+                new JButton("<html>grape<br/>(150円)</html>", new ImageIcon(ImageIO.read(new File("./icons/grapes.png")))),
+                new JButton("<html>noriBento<br/>(350円)</html>", new ImageIcon(ImageIO.read(new File("./icons/nori_ben.png")))),
+                new JButton("<html>salmonBento<br/>(400円)</html>", new ImageIcon(ImageIO.read(new File("./icons/sake_ben.png")))),
+                new JButton("<html>cigarette<br/>(420円)</html>", new ImageIcon(ImageIO.read(new File("./icons/cigarette.png")))),
+                new JButton("<html>mentholCigarette<br/>(440円)</html>", new ImageIcon(ImageIO.read(new File("./icons/menthol_cigarette.png")))),
+                new JButton("<html>lighter<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/lighter.png")))),
+                new JButton("<html>tea<br/>(80円)</html>", new ImageIcon(ImageIO.read(new File("./icons/tea.png")))),
+                new JButton("<html>coffee<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/coffee.png"))))
+                // new JButton("<html>flashHamburger<br/>(？？？円)</html>", new ImageIcon(ImageIO.read(new File("./icons/hamburger.png"))))
             );
         } catch (Exception e) {
             ;
