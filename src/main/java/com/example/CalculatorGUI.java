@@ -23,16 +23,46 @@ public class CalculatorGUI extends JFrame implements ActionListener {
 
     static Map<String, Integer> cart;
 
-    static Map<String, JTextField> subtotalLabelMap;
+    static Map<String, subtotalEntry> subtotalEntryMap;
 
-    private static class ResetButton implements ActionListener {
+    static Map<String, String> iconPathMap;
+
+    public CalculatorGUI() {
+        this.calculator = new CalculatorMock();
+        this.cart = new HashMap<>();
+        this.subtotalEntryMap = new HashMap<>();
+
+        this.iconPathMap = new HashMap<>();
+        iconPathMap.put("りんご", "./icons/apple_22.png");
+        iconPathMap.put("みかん", "./icons/orange_22.png");
+        iconPathMap.put("ぶどう", "./icons/grapes_22.png");
+        iconPathMap.put("のり弁", "./icons/nori_ben_22.png");
+        iconPathMap.put("しゃけ弁", "./icons/sake_ben_22.png");
+        iconPathMap.put("タバコ", "./icons/cigarette_22.png");
+        iconPathMap.put("メンソールタバコ", "./icons/menthol_cigarette_22.png");
+        iconPathMap.put("ライター", "./icons/lighter_22.png");
+        iconPathMap.put("お茶", "./icons/tea_22.png");
+        iconPathMap.put("コーヒー", "./icons/coffee_22.png");
+        iconPathMap.put("光のハンバーガー", "./icons/hamburger_22.png");
+    }
+
+    private static class subtotalEntry {
+        public JPanel panel;
+        public JLabel icon;
+        public JButton resetButton;
+        public JButton decrementButton;
+        public JButton incrementButton;
+        public JTextField subtotalLabel;
+    }
+
+    private static class AllResetButton implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            CalculatorGUI.totalAmountDisplay.setText("0 円");
+            CalculatorGUI.totalAmountDisplay.setText(String.format("%,8d 円", 0));
             CalculatorGUI.cart.clear();
-            for (final String key: CalculatorGUI.subtotalLabelMap.keySet()) {
-                CalculatorGUI.panel2.remove(CalculatorGUI.subtotalLabelMap.get(key));
+            for (final String key: CalculatorGUI.subtotalEntryMap.keySet()) {
+                CalculatorGUI.panel2.remove(CalculatorGUI.subtotalEntryMap.get(key).panel);
             }
-            CalculatorGUI.subtotalLabelMap.clear();
+            CalculatorGUI.subtotalEntryMap.clear();
             CalculatorGUI.frame.repaint();
         }
     }
@@ -49,15 +79,9 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         }
     }
 
-    public CalculatorGUI() {
-        this.calculator = new CalculatorMock();
-        this.cart = new HashMap<>();
-        this.subtotalLabelMap = new HashMap<>();
-    }
-
     private static void setSubtotalLabelText(String productName, int quantity) {
-        subtotalLabelMap.get(productName).setText(
-            String.format("(%2d個)    %s", quantity, productName)
+        subtotalEntryMap.get(productName).subtotalLabel.setText(
+            String.format("  (%d点)    %s", quantity, productName)
         );
     }
 
@@ -75,8 +99,9 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         }
  
         totalAmountDisplay = new JTextField(25);
-        totalAmountDisplay.setText("0 円");
+        totalAmountDisplay.setText(String.format("%,8d 円", 0));
         totalAmountDisplay.setEditable(false);
+        totalAmountDisplay.setFont(new Font("SansSerif", Font.BOLD, 20));
  
         panel1 = new JPanel();
         panel1.setLayout(new GridLayout(/* number of rows = */ 4, /* number of columns = */ 3));
@@ -94,7 +119,8 @@ public class CalculatorGUI extends JFrame implements ActionListener {
                 new JButton("<html>メンソールタバコ<br/>(440円)</html>", new ImageIcon(ImageIO.read(new File("./icons/menthol_cigarette.png")))),
                 new JButton("<html>ライター<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/lighter.png")))),
                 new JButton("<html>お茶<br/>(80円)</html>", new ImageIcon(ImageIO.read(new File("./icons/tea.png")))),
-                new JButton("<html>コーヒー<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/coffee.png"))))
+                new JButton("<html>コーヒー<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/coffee.png")))),
+                new JButton("<html>光のハンバーガー<br/>(???円)</html>")
             );
         } catch (Exception e) {
             ;
@@ -106,7 +132,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         }
 
         JButton resetButton = new JButton("リセット");
-        resetButton.addActionListener(new ResetButton());
+        resetButton.addActionListener(new AllResetButton());
         panel1.add(resetButton);
  
         panel2 = new JPanel();
@@ -115,9 +141,9 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         panel2.add(totalAmountDisplay);
 
         frame.add(panel1, BorderLayout.LINE_START);
-        frame.add(panel2, BorderLayout.LINE_END);
+        frame.add(panel2, BorderLayout.CENTER);
  
-        frame.setSize(850, 400);
+        frame.setSize(960, 400);
         frame.show();
 
     }
@@ -138,98 +164,70 @@ public class CalculatorGUI extends JFrame implements ActionListener {
             setSubtotalLabelText(productName, quantity);
         } else {
             this.cart.put(productName, 1);
-            JTextField subtotalLabel = new JTextField(25);
-            subtotalLabel.setEditable(false);
-            subtotalLabel.addActionListener(new DecrementButton());
-            this.subtotalLabelMap.put(productName, subtotalLabel);
-            panel2.add(subtotalLabel);
+
+            subtotalEntry entry = new subtotalEntry();
+
+            entry.panel = new JPanel();
+            entry.panel.setBackground(Color.lightGray);
+            entry.panel.setBorder(BorderFactory.createLineBorder(Color.gray));
+            entry.panel.setLayout(new GridBagLayout());
+            GridBagConstraints c = new GridBagConstraints();
+
+            int gridCounter = 0;
+
+            entry.decrementButton = new JButton("-");
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = gridCounter++;
+            c.gridy = 0;
+            c.gridwidth = 1;
+            entry.panel.add(entry.decrementButton, c);
+
+            entry.incrementButton = new JButton("+");
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = gridCounter++;
+            c.gridy = 0;
+            c.gridwidth = 1;
+            entry.panel.add(entry.incrementButton, c);
+
+            try {
+                entry.icon = new JLabel(new ImageIcon(ImageIO.read(new File(iconPathMap.get(productName)))));
+            } catch (Exception ex) {
+                ;
+            }
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = gridCounter++;
+            c.gridy = 0;
+            c.gridwidth = 1;
+            entry.panel.add(entry.icon, c);
+
+            entry.subtotalLabel = new JTextField(15);
+            entry.subtotalLabel.setEditable(false);
+            entry.subtotalLabel.setBackground(Color.lightGray);
+            entry.subtotalLabel.setBorder(null);
+            final int labelWidth = 5;
+            c.gridx = gridCounter;
+            gridCounter += labelWidth;
+            c.gridy = 0;
+            c.gridwidth = labelWidth;
+            entry.panel.add(entry.subtotalLabel, c);
+
+            entry.resetButton = new JButton("x");
+            c.gridx = gridCounter++;
+            c.gridy = 0;
+            c.gridwidth = 1;
+            entry.panel.add(entry.resetButton, c);
+
+            panel2.add(entry.panel);
+            this.subtotalEntryMap.put(productName, entry);
+
             setSubtotalLabelText(productName, /* quantity = */ 1);
         }
         
-        totalAmountDisplay.setText(String.format("%,6d 円", this.calculator.calculate(this.cart)));
+        totalAmountDisplay.setText(String.format("%,8d 円", this.calculator.calculate(this.cart)));
 
         frame.validate();
-
-//         JTextField f = new JTextField(25);
-//         f.setText(this.cart.toString());
-//         panel1.add(f);
-//         panel1.repaint();
-//         frame.repaint();
-//         panel1.validate();
-//         frame.validate();
- 
-//         // if the value is a number
-//         if ((s.charAt(0) >= '0' && s.charAt(0) <= '9') || s.charAt(0) == '.') {
-//             // if operand is present then add to second no
-//             if (!s1.equals(""))
-//                 s2 = s2 + s;
-//             else
-//                 s0 = s0 + s;
-//  
-//             // set the value of text
-//             totalAmountDisplay.setText(s0 + s1 + s2);
-//         }
-//         else if (s.charAt(0) == 'C') {
-//             // clear the one letter
-//             s0 = s1 = s2 = "";
-//  
-//             // set the value of text
-//             totalAmountDisplay.setText(s0 + s1 + s2);
-//         }
-//         else if (s.charAt(0) == '=') {
-//  
-//             double te;
-//  
-//             // store the value in 1st
-//             if (s1.equals("+"))
-//                 te = (Double.parseDouble(s0) + Double.parseDouble(s2));
-//             else if (s1.equals("-"))
-//                 te = (Double.parseDouble(s0) - Double.parseDouble(s2));
-//             else if (s1.equals("/"))
-//                 te = (Double.parseDouble(s0) / Double.parseDouble(s2));
-//             else
-//                 te = (Double.parseDouble(s0) * Double.parseDouble(s2));
-//  
-//             // set the value of text
-//             totalAmountDisplay.setText(s0 + s1 + s2 + "=" + te);
-//  
-//             // convert it to string
-//             s0 = Double.toString(te);
-//  
-//             s1 = s2 = "";
-//         }
-//         else {
-//             // if there was no operand
-//             if (s1.equals("") || s2.equals(""))
-//                 s1 = s; //operatorの変更
-//             // else evaluate
-//             else {
-//                 double te;
-//  
-//                 // store the value in 1st
-//                 if (s1.equals("+"))
-//                     te = (Double.parseDouble(s0) + Double.parseDouble(s2));
-//                 else if (s1.equals("-"))
-//                     te = (Double.parseDouble(s0) - Double.parseDouble(s2));
-//                 else if (s1.equals("/"))
-//                     te = (Double.parseDouble(s0) / Double.parseDouble(s2));
-//                 else
-//                     te = (Double.parseDouble(s0) * Double.parseDouble(s2));
-//  
-//                 // convert it to string
-//                 s0 = Double.toString(te);
-//  
-//                 // place the operator
-//                 s1 = s;
-//  
-//                 // make the operand blank
-//                 s2 = "";
-//             }
-//  
-//             // set the value of text
-//             totalAmountDisplay.setText(s0 + s1 + s2);
-//         }
 
     }
 
 }
+
