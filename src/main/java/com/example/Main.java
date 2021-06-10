@@ -9,6 +9,7 @@ public class Main {
         //prepares `purchaseMap`
         Map<String, Integer> purchaseMap = new HashMap<>();
         purchaseMap.put("apple", 4);
+        purchaseMap.put("grape", 5);
         purchaseMap.put("orange", 3);
         CreateProductMap createProductMap = new CreateProductMap();
         Map <Product,Integer> productMap = createProductMap.create(purchaseMap);

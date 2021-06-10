@@ -1,10 +1,7 @@
 package com.example;
 
-import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.google.gson.Gson;
 
 public class CreateProductMap {
 
@@ -14,13 +11,13 @@ public class CreateProductMap {
         productMap = new HashMap<>();
     }
 
-    public Map<Product,Integer> create(Map<String,Integer> purchaseMap) {
+    public Map<Product,Integer> create(Map<String,Integer> purchasedProductMap) {
 
         SearchProduct s = new SearchProduct();
 
-        for (Map.Entry<String, Integer> e : purchaseMap.entrySet()){
-            Product product = s.search(e.getKey());
-            productMap.put(product,e.getValue());
+        for (String productName : purchasedProductMap.keySet()){
+            Product product = s.search(productName);
+            productMap.put(product,purchasedProductMap.get(productName));
         }
 
         return productMap;
