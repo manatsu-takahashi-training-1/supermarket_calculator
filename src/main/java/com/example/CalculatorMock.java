@@ -7,9 +7,6 @@ public class CalculatorMock {
         int totalAmount = 0;
         for (String productName: purchasedProductMap.keySet()) {
             final int quantity = purchasedProductMap.get(productName);
-            System.out.println("-----");
-            System.out.printf("[%s]\n", productName);
-            System.out.println(productName.equals("りんご"));
             int price;
             if (productName.equals("りんご")) {
                 price = 100;
