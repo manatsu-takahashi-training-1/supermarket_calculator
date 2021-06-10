@@ -7,17 +7,23 @@ public class Tax {
     // Here is the constructor
     public Tax(int beforeTax) {
         this.beforeTax = beforeTax;
-        if (beforeTax < 0) {
+        if (this.beforeTax < 0) {
             throw new RuntimeException();
         }
     }
 
     //calculating the sales tax here.
     public int getTaxIncludedPrice(int beforeTax) {
-        final int taxRate = 108;    // Sales tax = 8%
-        int temp = beforeTax * taxRate / 100;
-        int afterTax = temp;       //apply tax
-        return afterTax;
-    }
+        this.beforeTax = beforeTax;
+        if (this.beforeTax < 0) {
+            throw new RuntimeException();
+        }
+        else {
+            final int taxRate = 108;    // Sales tax = 8%
+            int temp = beforeTax * taxRate / 100;
+            int afterTax = temp;       //apply tax
+            return afterTax;
+        }
 
+    }
 }

@@ -1,5 +1,6 @@
 package com.example;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,14 @@ class TaxTest {
             int actual = test.getTaxIncludedPrice(100);
             assertEquals(108,actual);
         }
+        @Test
+        public void _0円を入れてエラーが出るかテスト(){
+            Assertions.assertThrows(Exception.class, () -> {
+                Tax test = new Tax(-8);
+            });
+        }
     }
+    
 
 }
 
