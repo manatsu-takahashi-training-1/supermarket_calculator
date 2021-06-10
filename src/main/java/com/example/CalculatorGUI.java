@@ -25,6 +25,30 @@ public class CalculatorGUI extends JFrame implements ActionListener {
 
     static Map<String, JTextField> subtotalLabelMap;
 
+    private static class ResetButton implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            CalculatorGUI.totalAmountDisplay.setText("0 円");
+            CalculatorGUI.cart.clear();
+            for (final String key: CalculatorGUI.subtotalLabelMap.keySet()) {
+                CalculatorGUI.panel2.remove(CalculatorGUI.subtotalLabelMap.get(key));
+            }
+            CalculatorGUI.subtotalLabelMap.clear();
+            CalculatorGUI.frame.repaint();
+        }
+    }
+
+    private static class DecrementButton implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String productName = e.getActionCommand();
+            var pattern = java.util.regex.Pattern.compile("(?<=.* ).*");
+            var matcher = pattern.matcher(productName);
+            if (matcher.find()) {
+                productName = matcher.group();
+            }
+            System.out.println(productName);
+        }
+    }
+
     public CalculatorGUI() {
         this.calculator = new CalculatorMock();
         this.cart = new HashMap<>();
@@ -51,7 +75,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         }
  
         totalAmountDisplay = new JTextField(25);
-        totalAmountDisplay.setText("0");
+        totalAmountDisplay.setText("0 円");
         totalAmountDisplay.setEditable(false);
  
         panel1 = new JPanel();
@@ -80,6 +104,10 @@ public class CalculatorGUI extends JFrame implements ActionListener {
             b.addActionListener(c);
             panel1.add(b);
         }
+
+        JButton resetButton = new JButton("リセット");
+        resetButton.addActionListener(new ResetButton());
+        panel1.add(resetButton);
  
         panel2 = new JPanel();
         panel2.setLayout(new GridLayout(productButtonList.size() + 1, 1));
@@ -98,15 +126,11 @@ public class CalculatorGUI extends JFrame implements ActionListener {
 
         String productName = e.getActionCommand();
 
-        System.out.printf("[%s]\n", productName);
         var pattern = java.util.regex.Pattern.compile("(?<=<html>)[^<]+");
         var matcher = pattern.matcher(productName);
         if (matcher.find()) {
             productName = matcher.group();
         }
-        System.out.printf("[%s]\n", productName);
-        System.out.printf("りんご\n");
-        System.out.println(productName.equals("りんご"));
 
         if (this.cart.containsKey(productName)) {
             final int quantity = this.cart.get(productName) + 1;
@@ -115,12 +139,14 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         } else {
             this.cart.put(productName, 1);
             JTextField subtotalLabel = new JTextField(25);
+            subtotalLabel.setEditable(false);
+            subtotalLabel.addActionListener(new DecrementButton());
             this.subtotalLabelMap.put(productName, subtotalLabel);
             panel2.add(subtotalLabel);
             setSubtotalLabelText(productName, /* quantity = */ 1);
         }
         
-        totalAmountDisplay.setText(String.valueOf(this.calculator.calculate(this.cart)));
+        totalAmountDisplay.setText(String.format("%,6d 円", this.calculator.calculate(this.cart)));
 
         frame.validate();
 
