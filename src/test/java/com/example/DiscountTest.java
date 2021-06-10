@@ -25,7 +25,6 @@ public class DiscountTest {
     @Test
     void りんご0個で0円出力する() {
         purchasedProductMap = new HashMap<>();
-        purchasedProductMap.put(Product.APPLE, 0);
 
         int discountValue = discount.calcDiscount(purchasedProductMap);
         assertEquals(0, discountValue);
