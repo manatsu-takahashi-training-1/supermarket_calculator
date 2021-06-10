@@ -67,16 +67,54 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         }
     }
 
-    private static class DecrementButton implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            String productName = e.getActionCommand();
-            var pattern = java.util.regex.Pattern.compile("(?<=.* ).*");
-            var matcher = pattern.matcher(productName);
-            if (matcher.find()) {
-                productName = matcher.group();
-            }
-            System.out.println(productName);
+    private class ResetButton implements ActionListener {
+        private String productName;
+        public ResetButton (String productName) {
+            this.productName = productName;
         }
+        public void actionPerformed(ActionEvent e) {
+            final String productName = this.productName;
+            CalculatorGUI.cart.remove(productName);
+            CalculatorGUI.panel2.remove(CalculatorGUI.subtotalEntryMap.get(productName).panel);
+            CalculatorGUI.subtotalEntryMap.remove(productName);
+            setTotalAmountDisplay();
+            CalculatorGUI.frame.repaint();
+            CalculatorGUI.frame.validate();
+        }
+    }
+
+
+    private class IncrementButton implements ActionListener {
+        private String productName;
+        private int incrementRange;
+        public IncrementButton(String productName) {
+            this.productName = productName;
+            this.incrementRange = 1;
+        }
+        public IncrementButton(String productName, int incrementRange) {
+            this.productName = productName;
+            this.incrementRange = incrementRange;
+        }
+        public void actionPerformed(ActionEvent e) {
+            String productName = this.productName;
+            int quantity = CalculatorGUI.cart.get(productName);
+            if (quantity + this.incrementRange <= 0) {
+                CalculatorGUI.cart.remove(productName);
+                CalculatorGUI.panel2.remove(CalculatorGUI.subtotalEntryMap.get(productName).panel);
+                CalculatorGUI.subtotalEntryMap.remove(productName);
+            } else {
+                quantity += this.incrementRange;
+                CalculatorGUI.cart.put(productName, quantity);
+                setSubtotalLabelText(productName, quantity);
+            }
+            setTotalAmountDisplay();
+            CalculatorGUI.frame.repaint();
+            CalculatorGUI.frame.validate();
+        }
+    }
+
+    private void setTotalAmountDisplay() {
+        totalAmountDisplay.setText(String.format("%,8d 円", this.calculator.calculate(this.cart)));
     }
 
     private static void setSubtotalLabelText(String productName, int quantity) {
@@ -120,7 +158,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
                 new JButton("<html>ライター<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/lighter.png")))),
                 new JButton("<html>お茶<br/>(80円)</html>", new ImageIcon(ImageIO.read(new File("./icons/tea.png")))),
                 new JButton("<html>コーヒー<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/coffee.png")))),
-                new JButton("<html>光のハンバーガー<br/>(???円)</html>")
+                new JButton("<html>光のハンバーガー<br/>(???円)</html>", new ImageIcon(ImageIO.read(new File("./icons/hamburger.png"))))
             );
         } catch (Exception e) {
             ;
@@ -131,7 +169,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
             panel1.add(b);
         }
 
-        JButton resetButton = new JButton("リセット");
+        JButton resetButton = new JButton("<html><font size=11 color=Red>リセット</font></html>");
         resetButton.addActionListener(new AllResetButton());
         panel1.add(resetButton);
  
@@ -176,6 +214,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
             int gridCounter = 0;
 
             entry.decrementButton = new JButton("-");
+            entry.decrementButton.addActionListener(new IncrementButton(productName, /* incrementRange = */ -1));
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridx = gridCounter++;
             c.gridy = 0;
@@ -183,6 +222,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
             entry.panel.add(entry.decrementButton, c);
 
             entry.incrementButton = new JButton("+");
+            entry.incrementButton.addActionListener(new IncrementButton(productName));
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridx = gridCounter++;
             c.gridy = 0;
@@ -212,6 +252,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
             entry.panel.add(entry.subtotalLabel, c);
 
             entry.resetButton = new JButton("x");
+            entry.resetButton.addActionListener(new ResetButton(productName));
             c.gridx = gridCounter++;
             c.gridy = 0;
             c.gridwidth = 1;
@@ -223,7 +264,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
             setSubtotalLabelText(productName, /* quantity = */ 1);
         }
         
-        totalAmountDisplay.setText(String.format("%,8d 円", this.calculator.calculate(this.cart)));
+        setTotalAmountDisplay();
 
         frame.validate();
 
