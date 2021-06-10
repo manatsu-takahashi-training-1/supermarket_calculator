@@ -11,13 +11,13 @@ public class CreateProductMap {
         productMap = new HashMap<>();
     }
 
-    public Map<Product,Integer> create(Map<String,Integer> purchaseMap) {
+    public Map<Product,Integer> create(Map<String,Integer> purchasedMap) {
 
         SearchProduct s = new SearchProduct();
 
-        for (Map.Entry<String, Integer> e : purchaseMap.entrySet()){
-            Product product = s.search(e.getKey());
-            productMap.put(product,e.getValue());
+        for (final String productName : purchasedMap.keySet()){
+            Product product = s.search(productName);
+            productMap.put(product,purchasedMap.get(product.getProductName()));
         }
 
         return productMap;
