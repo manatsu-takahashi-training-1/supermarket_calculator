@@ -158,7 +158,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
                 new JButton("<html>ライター<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/lighter.png")))),
                 new JButton("<html>お茶<br/>(80円)</html>", new ImageIcon(ImageIO.read(new File("./icons/tea.png")))),
                 new JButton("<html>コーヒー<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/coffee.png")))),
-                new JButton("<html>光のハンバーガー<br/>(???円)</html>", new ImageIcon(ImageIO.read(new File("./icons/hamburger.png"))))
+                new JButton("<html>光のハンバーガー<br/>(？？？円)</html>", new ImageIcon(ImageIO.read(new File("./icons/hamburger.png"))))
             );
         } catch (Exception e) {
             ;
@@ -169,7 +169,12 @@ public class CalculatorGUI extends JFrame implements ActionListener {
             panel1.add(b);
         }
 
-        JButton resetButton = new JButton("<html><font size=11 color=Red>リセット</font></html>");
+        JButton resetButton = null;
+        try {
+            resetButton = new JButton(new ImageIcon(ImageIO.read(new File("./icons/all_reset_2.png"))));
+        } catch (Exception e) {
+            ;
+        }
         resetButton.addActionListener(new AllResetButton());
         panel1.add(resetButton);
  
@@ -251,8 +256,16 @@ public class CalculatorGUI extends JFrame implements ActionListener {
             c.gridwidth = labelWidth;
             entry.panel.add(entry.subtotalLabel, c);
 
-            entry.resetButton = new JButton("x");
+            entry.resetButton = null;
+            try {
+                entry.resetButton = new JButton(new ImageIcon(ImageIO.read(new File("./icons/reset_button_2.png"))));
+            } catch (Exception ex) {
+                ;
+            }
+            entry.resetButton.setBackground(Color.lightGray);
+            entry.resetButton.setBorder(null);
             entry.resetButton.addActionListener(new ResetButton(productName));
+
             c.gridx = gridCounter++;
             c.gridy = 0;
             c.gridwidth = 1;
