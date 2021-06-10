@@ -15,6 +15,14 @@ public class Discount {
         {
             discountValue -= 20;
         }
+
+        // discount lighter
+        if((purchasedProductMap.getOrDefault(Product.CIGARETTE, 0) >= 10
+                || purchasedProductMap.getOrDefault(Product.MENTHOL_CIGARETTE, 0) >= 10)
+                && purchasedProductMap.getOrDefault(Product.LIGHTER, 0) >= 1)
+        {
+            discountValue -= 100;
+        }
         
         return discountValue;
     }
