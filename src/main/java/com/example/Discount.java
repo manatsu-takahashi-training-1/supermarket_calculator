@@ -9,12 +9,13 @@ public class Discount {
         int discountValue = 0;
         discountValue -= (numApple / 3)*20;
 
-
+//Bento discount
         if(purchasedProductMap.containsKey(Product.NORI_BENTO) || purchasedProductMap.containsKey(Product.SALMON_BENTO)
                 && purchasedProductMap.containsKey(Product.TEA)||purchasedProductMap.containsKey(Product.COFFEE))
         {
             discountValue -= 20;
         }
+        
         return discountValue;
     }
 }
