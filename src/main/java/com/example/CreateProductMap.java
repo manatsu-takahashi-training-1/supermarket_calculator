@@ -14,11 +14,6 @@ public class CreateProductMap {
         productMap = new HashMap<>();
     }
 
-    private class A {
-        public String name;
-        public int quantity;
-    }
-
     public Map<Product,Integer> create(Map<String,Integer> purchaseMap) {
 
         SearchProduct s = new SearchProduct();
