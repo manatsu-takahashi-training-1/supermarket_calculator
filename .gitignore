@@ -11,3 +11,4 @@ sandbox/
 *.iml
 .idea/
 *.psd
+*.class
