@@ -39,13 +39,17 @@ public class CalculatorGUI extends JFrame {
  
     static JTextField totalAmountDisplay;
 
-    private static final String windowTitle = "SuperMarket Calculator";
+    private static final String windowTitle  = "SuperMarket Calculator";
+    private static final int    windowWidth  = 1000;
+    private static final int    windowHeight = 400;
+
+    static Color defaultBgColor = Color.gray;
 
     //} GUI
 
     //CUI {
 
-    static Calculator calculator;
+    private static Calculator calculator;
 
     static Map<String, Integer> cart;
 
@@ -53,104 +57,103 @@ public class CalculatorGUI extends JFrame {
 
     //Maps a Japanese product name to its English version.
     //This is needed since the names of the products are internally handled in English.
-    static Map<String, String> nameMap;
-
-    static Map<String, String> iconPathMap; //maps a product name to its icon path
+    private static Map<String, String> nameMap;
 
     //} CUI
 
     static {
 
-        CalculatorGUI.frame = new JFrame(windowTitle);
- 
-        CalculatorGUI.calculator = new Calculator();
-        CalculatorGUI.cart = new HashMap<>();
-        CalculatorGUI.subtotalEntryMap = new HashMap<>();
+        //CUI
+        {
 
-        CalculatorGUI.iconPathMap = new HashMap<>();
-        iconPathMap.put("りんご",           "./icons/apple_22.png");
-        iconPathMap.put("みかん",           "./icons/orange_22.png");
-        iconPathMap.put("ぶどう",           "./icons/grapes_22.png");
-        iconPathMap.put("のり弁",           "./icons/nori_ben_22.png");
-        iconPathMap.put("しゃけ弁",         "./icons/sake_ben_22.png");
-        iconPathMap.put("タバコ",           "./icons/cigarette_22.png");
-        iconPathMap.put("メンソールタバコ", "./icons/menthol_cigarette_22.png");
-        iconPathMap.put("ライター",         "./icons/lighter_22.png");
-        iconPathMap.put("お茶",             "./icons/tea_22.png");
-        iconPathMap.put("コーヒー",         "./icons/coffee_22.png");
-        iconPathMap.put("光のハンバーガー", "./icons/hamburger_22.png");
+            CalculatorGUI.calculator = new Calculator();
+            CalculatorGUI.cart = new HashMap<>();
+            CalculatorGUI.subtotalEntryMap = new HashMap<>();
 
-        CalculatorGUI.nameMap = new HashMap<>();
-        nameMap.put("りんご",           "apple");
-        nameMap.put("みかん",           "orange");
-        nameMap.put("ぶどう",           "grape");
-        nameMap.put("のり弁",           "noriBento");
-        nameMap.put("しゃけ弁",         "salmonBento");
-        nameMap.put("タバコ",           "cigarette");
-        nameMap.put("メンソールタバコ", "mentholCigarette");
-        nameMap.put("ライター",         "lighter");
-        nameMap.put("お茶",             "tea");
-        nameMap.put("コーヒー",         "coffee");
-        nameMap.put("光のハンバーガー", "flashHamburger");
+            CalculatorGUI.nameMap = new HashMap<>();
+            nameMap.put("りんご",           "apple");
+            nameMap.put("みかん",           "orange");
+            nameMap.put("ぶどう",           "grape");
+            nameMap.put("のり弁",           "noriBento");
+            nameMap.put("しゃけ弁",         "salmonBento");
+            nameMap.put("タバコ",           "cigarette");
+            nameMap.put("メンソールタバコ", "mentholCigarette");
+            nameMap.put("ライター",         "lighter");
+            nameMap.put("お茶",             "tea");
+            nameMap.put("コーヒー",         "coffee");
+            nameMap.put("光のハンバーガー", "flashHamburger");
 
-        //sets look and feel
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
- 
-        CalculatorGUI.totalAmountDisplay = new JTextField(25); //TODO
-        CalculatorGUI.totalAmountDisplay.setEditable(false);
-        CalculatorGUI.totalAmountDisplay.setFont(new Font("SansSerif", Font.BOLD, 20));
-        CalculatorGUI.recalculateTotalAmountDisplay();
- 
-        CalculatorGUI.panel1 = new JPanel();
-        CalculatorGUI.panel1.setLayout(new GridLayout(/* number of rows = */ 4, /* number of columns = */ 3));
-        CalculatorGUI.panel1.setBackground(Color.gray);
-
-        List<JButton> productButtonList = null;
-        try {
-            productButtonList = List.of(
-                new JButton("<html>りんご<br/>(100円)</html>",              new ImageIcon(ImageIO.read(new File("./icons/apple.png")))), //TODO generates the string "<html>りんご<br/>... "
-                new JButton("<html>みかん<br/>(40円)</html>",               new ImageIcon(ImageIO.read(new File("./icons/orange.png")))),
-                new JButton("<html>ぶどう<br/>(150円)</html>",              new ImageIcon(ImageIO.read(new File("./icons/grapes.png")))),
-                new JButton("<html>のり弁<br/>(350円)</html>",              new ImageIcon(ImageIO.read(new File("./icons/nori_ben.png")))),
-                new JButton("<html>しゃけ弁<br/>(400円)</html>",            new ImageIcon(ImageIO.read(new File("./icons/sake_ben.png")))),
-                new JButton("<html>タバコ<br/>(420円)</html>",              new ImageIcon(ImageIO.read(new File("./icons/cigarette.png")))),
-                new JButton("<html>メンソールタバコ<br/>(440円)</html>",    new ImageIcon(ImageIO.read(new File("./icons/menthol_cigarette.png")))),
-                new JButton("<html>ライター<br/>(100円)</html>",            new ImageIcon(ImageIO.read(new File("./icons/lighter.png")))),
-                new JButton("<html>お茶<br/>(80円)</html>",                 new ImageIcon(ImageIO.read(new File("./icons/tea.png")))),
-                new JButton("<html>コーヒー<br/>(100円)</html>",            new ImageIcon(ImageIO.read(new File("./icons/coffee.png")))),
-                new JButton("<html>光のハンバーガー<br/>(？？？円)</html>", new ImageIcon(ImageIO.read(new File("./icons/hamburger.png"))))
-            );
-        } catch (Exception e) {
-            ;
         }
 
-        for (JButton productButton: productButtonList) {
-            productButton.addActionListener(new ProductButtonHandler());
-            CalculatorGUI.panel1.add(productButton);
-        }
+        //GUI
+        {
 
-        JButton allResetButton = null;
-        try {
-            allResetButton = new JButton(new ImageIcon(ImageIO.read(new File("./icons/all_reset_2.png"))));
-        } catch (Exception e) {
-            ;
-        }
-        allResetButton.addActionListener(new AllResetButtonHandler());
-        CalculatorGUI.panel1.add(allResetButton);
- 
-        CalculatorGUI.panel2 = new JPanel();
-        CalculatorGUI.panel2.setLayout(new GridLayout(productButtonList.size() + 1, 1));
-        CalculatorGUI.panel2.setBackground(Color.gray);
-        CalculatorGUI.panel2.add(totalAmountDisplay);
+            //sets look and feel
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+     
+            CalculatorGUI.frame = new JFrame(windowTitle);
+            CalculatorGUI.frame.setSize(CalculatorGUI.windowWidth, windowHeight);
+     
+            CalculatorGUI.totalAmountDisplay = new JTextField(10);
+            CalculatorGUI.totalAmountDisplay.setEditable(false);
+            CalculatorGUI.totalAmountDisplay.setFont(new Font("SansSerif", Font.BOLD, 20));
+            CalculatorGUI.recalculateTotalAmountDisplay();
 
-        CalculatorGUI.frame.add(panel1, BorderLayout.LINE_START);
-        CalculatorGUI.frame.add(panel2, BorderLayout.CENTER);
- 
-        CalculatorGUI.frame.setSize(1000, 400); //TODO
+            //panel1 {
+     
+            CalculatorGUI.panel1 = new JPanel();
+            CalculatorGUI.panel1.setLayout(new GridLayout(/* number of rows = */ 4, /* number of columns = */ 3));
+            CalculatorGUI.panel1.setBackground(CalculatorGUI.defaultBgColor);
+
+            List<JButton> productButtonList = null;
+            try {
+                productButtonList = List.of(
+                    new JButton("<html>りんご<br/>(100円)</html>",              IconGenerator.generateIcon("りんご")),
+                    new JButton("<html>みかん<br/>(40円)</html>",               IconGenerator.generateIcon("みかん")),
+                    new JButton("<html>ぶどう<br/>(150円)</html>",              IconGenerator.generateIcon("ぶどう")),
+                    new JButton("<html>のり弁<br/>(350円)</html>",              IconGenerator.generateIcon("のり弁")),
+                    new JButton("<html>しゃけ弁<br/>(400円)</html>",            IconGenerator.generateIcon("しゃけ弁")),
+                    new JButton("<html>タバコ<br/>(420円)</html>",              IconGenerator.generateIcon("タバコ")),
+                    new JButton("<html>メンソールタバコ<br/>(440円)</html>",    IconGenerator.generateIcon("メンソールタバコ")),
+                    new JButton("<html>ライター<br/>(100円)</html>",            IconGenerator.generateIcon("ライター")),
+                    new JButton("<html>お茶<br/>(80円)</html>",                 IconGenerator.generateIcon("お茶")),
+                    new JButton("<html>コーヒー<br/>(100円)</html>",            IconGenerator.generateIcon("コーヒー")),
+                    new JButton("<html>光のハンバーガー<br/>(？？？円)</html>", IconGenerator.generateIcon("光のハンバーガー"))
+                );
+            } catch (Exception e) {
+                ;
+            }
+
+            for (JButton productButton: productButtonList) {
+                productButton.addActionListener(new ProductButtonHandler());
+                CalculatorGUI.panel1.add(productButton);
+            }
+
+            JButton allResetButton = null;
+            try {
+                allResetButton = new JButton(IconGenerator.generateIcon("りせっと"));
+            } catch (Exception e) {
+                ;
+            }
+            allResetButton.addActionListener(new AllResetButtonHandler());
+            CalculatorGUI.panel1.add(allResetButton);
+
+            //} panel1
+     
+            //panel2
+            CalculatorGUI.panel2 = new JPanel();
+            CalculatorGUI.panel2.setLayout(new GridLayout(productButtonList.size() + 1, 1));
+            CalculatorGUI.panel2.setBackground(CalculatorGUI.defaultBgColor);
+            CalculatorGUI.panel2.add(totalAmountDisplay);
+
+            CalculatorGUI.frame.add(panel1, BorderLayout.LINE_START);
+            CalculatorGUI.frame.add(panel2, BorderLayout.CENTER);
+     
+        }
 
     }
 
@@ -161,6 +164,12 @@ public class CalculatorGUI extends JFrame {
             purchasedProductMap.put(newProductName, CalculatorGUI.cart.get(oldProductName));
         }
         totalAmountDisplay.setText(String.format("%,8d 円", CalculatorGUI.calculator.calculate(purchasedProductMap)));
+    }
+    
+    public static void removeSubtotalEntry(String productName) {
+        CalculatorGUI.cart.remove(productName);
+        CalculatorGUI.panel2.remove(CalculatorGUI.subtotalEntryMap.get(productName).panel);
+        CalculatorGUI.subtotalEntryMap.remove(productName);
     }
 
     public static void redraw() {
@@ -198,7 +207,7 @@ class SubtotalEntry {
 
         panel = new JPanel();
         panel.setBackground(Color.lightGray);
-        panel.setBorder(BorderFactory.createLineBorder(Color.gray));
+        panel.setBorder(BorderFactory.createLineBorder(CalculatorGUI.defaultBgColor));
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gridder = new GridBagConstraints();
 
@@ -221,7 +230,7 @@ class SubtotalEntry {
         panel.add(this.incrementButton, gridder);
 
         try {
-            icon = new JLabel(new ImageIcon(ImageIO.read(new File(CalculatorGUI.iconPathMap.get(productName))))); //TODO implement iconGenerator
+            icon = new JLabel(IconGenerator.generateMiniIcon(productName));
         } catch (Exception e) {
             ;
         }
@@ -233,7 +242,7 @@ class SubtotalEntry {
 
         subtotalLabel = new JTextField(SubtotalEntry.labelWidth);
         subtotalLabel.setEditable(false);
-        subtotalLabel.setBackground(Color.lightGray); //TODO default bg color
+        subtotalLabel.setBackground(Color.lightGray);
         subtotalLabel.setBorder(null);
         setSubtotalLabelText(productName, 1);
         gridder.gridx = gridCounter;
@@ -257,6 +266,71 @@ class SubtotalEntry {
         gridder.gridwidth = 1;
         panel.add(this.resetButton, gridder);
 
+    }
+
+}
+
+/*-------------------------------------*/
+
+/* IconGenerator */
+
+class IconGenerator {
+
+    private static final String iconDirectory = "./icons/";
+
+    static Map<String, String> iconPathMap; //maps a product name to its icon path
+    static Map<String, String> miniIconPathMap; //ditto but with smaller icons
+
+    static {
+
+        IconGenerator.iconPathMap     = new HashMap<>();
+        IconGenerator.miniIconPathMap = new HashMap<>();
+
+        iconPathMap.put("りんご",           "apple.png");
+        iconPathMap.put("みかん",           "orange.png");
+        iconPathMap.put("ぶどう",           "grapes.png");
+        iconPathMap.put("のり弁",           "nori_ben.png");
+        iconPathMap.put("しゃけ弁",         "sake_ben.png");
+        iconPathMap.put("タバコ",           "cigarette.png");
+        iconPathMap.put("メンソールタバコ", "menthol_cigarette.png");
+        iconPathMap.put("ライター",         "lighter.png");
+        iconPathMap.put("お茶",             "tea.png");
+        iconPathMap.put("コーヒー",         "coffee.png");
+        iconPathMap.put("光のハンバーガー", "hamburger.png");
+
+        iconPathMap.put("りせっと",         "all_reset_2.png");
+
+        miniIconPathMap.put("りんご",           "apple_22.png");
+        miniIconPathMap.put("みかん",           "orange_22.png");
+        miniIconPathMap.put("ぶどう",           "grapes_22.png");
+        miniIconPathMap.put("のり弁",           "nori_ben_22.png");
+        miniIconPathMap.put("しゃけ弁",         "sake_ben_22.png");
+        miniIconPathMap.put("タバコ",           "cigarette_22.png");
+        miniIconPathMap.put("メンソールタバコ", "menthol_cigarette_22.png");
+        miniIconPathMap.put("ライター",         "lighter_22.png");
+        miniIconPathMap.put("お茶",             "tea_22.png");
+        miniIconPathMap.put("コーヒー",         "coffee_22.png");
+        miniIconPathMap.put("光のハンバーガー", "hamburger_22.png");
+
+    }
+
+    private static ImageIcon __generateIcon(String productName, Map<String, String> iconPathMap) {
+        ImageIcon ret = null;
+        try {
+            final String iconPath = IconGenerator.iconDirectory + iconPathMap.get(productName);
+            ret = new ImageIcon(ImageIO.read(new File(iconPath)));
+        } catch (Exception e) {
+            ;
+        }
+        return ret;
+    }
+
+    public static ImageIcon generateIcon(String productName) {
+        return IconGenerator.__generateIcon(productName, IconGenerator.iconPathMap);
+    }
+
+    public static ImageIcon generateMiniIcon(String productName) {
+        return IconGenerator.__generateIcon(productName, IconGenerator.miniIconPathMap);
     }
 
 }
@@ -292,9 +366,7 @@ class ResetButtonHandler implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent event) {
-        CalculatorGUI.cart.remove(this.productName);
-        CalculatorGUI.panel2.remove(CalculatorGUI.subtotalEntryMap.get(this.productName).panel);
-        CalculatorGUI.subtotalEntryMap.remove(this.productName);
+        CalculatorGUI.removeSubtotalEntry(this.productName);
         CalculatorGUI.recalculateTotalAmountDisplay();
         CalculatorGUI.redraw();
     }
@@ -322,9 +394,7 @@ class IncrementButtonHandler implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         int quantity = CalculatorGUI.cart.get(this.productName);
         if (quantity + this.numIncrement <= 0) { //if in decrement mode and the current quantity is 1
-            CalculatorGUI.cart.remove(this.productName); //TODO (can be grouped into a function)
-            CalculatorGUI.panel2.remove(CalculatorGUI.subtotalEntryMap.get(this.productName).panel);
-            CalculatorGUI.subtotalEntryMap.remove(this.productName);
+            CalculatorGUI.removeSubtotalEntry(this.productName);
         } else {
             quantity += this.numIncrement;
             CalculatorGUI.cart.put(this.productName, quantity);
