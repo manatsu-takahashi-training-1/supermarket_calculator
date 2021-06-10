@@ -181,7 +181,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         frame.add(panel1, BorderLayout.LINE_START);
         frame.add(panel2, BorderLayout.CENTER);
  
-        frame.setSize(960, 400);
+        frame.setSize(1000, 400);
         frame.show();
 
     }
