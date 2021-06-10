@@ -7,13 +7,16 @@ public class CalculatorMock {
         int totalAmount = 0;
         for (String productName: purchasedProductMap.keySet()) {
             final int quantity = purchasedProductMap.get(productName);
+            System.out.println("-----");
+            System.out.printf("[%s]\n", productName);
+            System.out.println(productName.equals("りんご"));
             int price;
-            if (productName == "りんご") {
+            if (productName.equals("りんご")) {
                 price = 100;
-            } else if (productName == "ぶどう") {
+            } else if (productName.equals("ぶどう")) {
                 price = 500;
-            } else if (productName == "みかん") {
-                price = 50;
+            } else if (productName.equals("みかん")) {
+                price = 40;
             } else {
                 price = 300;
             }

@@ -54,29 +54,28 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         totalAmountDisplay.setText("0");
         totalAmountDisplay.setEditable(false);
  
-//         JButton b_apple = null;
-//         try {
-//             b_apple = new JButton("りんご", new ImageIcon(ImageIO.read(new File("./icons/apple.png"))));
-//         } catch (Exception e) {
-//             ;
-//         }
-
         panel1 = new JPanel();
         panel1.setLayout(new GridLayout(/* number of rows = */ 4, /* number of columns = */ 3));
         panel1.setBackground(Color.gray);
 
-        List<JButton> productButtonList = List.of(
-            new JButton("りんご"),
-            new JButton("みかん"),
-            new JButton("ぶどう"),
-            new JButton("のり弁"),
-            new JButton("しゃけ弁"),
-            new JButton("タバコ"),
-            new JButton("メンソールタバコ"),
-            new JButton("ライター"),
-            new JButton("お茶"),
-            new JButton("コーヒー")
-        );
+        List<JButton> productButtonList = null;
+        try {
+            productButtonList = List.of(
+                new JButton("<html>りんご<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/apple.png")))),
+                new JButton("<html>みかん<br/>(40円)</html>", new ImageIcon(ImageIO.read(new File("./icons/orange.png")))),
+                new JButton("<html>ぶどう<br/>(150円)</html>", new ImageIcon(ImageIO.read(new File("./icons/grapes.png")))),
+                new JButton("<html>のり弁<br/>(350円)</html>", new ImageIcon(ImageIO.read(new File("./icons/nori_ben.png")))),
+                new JButton("<html>しゃけ弁<br/>(400円)</html>", new ImageIcon(ImageIO.read(new File("./icons/sake_ben.png")))),
+                new JButton("<html>タバコ<br/>(420円)</html>", new ImageIcon(ImageIO.read(new File("./icons/cigarette.png")))),
+                new JButton("<html>メンソールタバコ<br/>(440円)</html>", new ImageIcon(ImageIO.read(new File("./icons/menthol_cigarette.png")))),
+                new JButton("<html>ライター<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/lighter.png")))),
+                new JButton("<html>お茶<br/>(80円)</html>", new ImageIcon(ImageIO.read(new File("./icons/tea.png")))),
+                new JButton("<html>コーヒー<br/>(100円)</html>", new ImageIcon(ImageIO.read(new File("./icons/coffee.png"))))
+            );
+        } catch (Exception e) {
+            ;
+        }
+
         for (JButton b: productButtonList) {
             b.addActionListener(c);
             panel1.add(b);
@@ -90,7 +89,7 @@ public class CalculatorGUI extends JFrame implements ActionListener {
         frame.add(panel1, BorderLayout.LINE_START);
         frame.add(panel2, BorderLayout.LINE_END);
  
-        frame.setSize(780, 400);
+        frame.setSize(850, 400);
         frame.show();
 
     }
@@ -98,6 +97,16 @@ public class CalculatorGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         String productName = e.getActionCommand();
+
+        System.out.printf("[%s]\n", productName);
+        var pattern = java.util.regex.Pattern.compile("(?<=<html>)[^<]+");
+        var matcher = pattern.matcher(productName);
+        if (matcher.find()) {
+            productName = matcher.group();
+        }
+        System.out.printf("[%s]\n", productName);
+        System.out.printf("りんご\n");
+        System.out.println(productName.equals("りんご"));
 
         if (this.cart.containsKey(productName)) {
             final int quantity = this.cart.get(productName) + 1;
