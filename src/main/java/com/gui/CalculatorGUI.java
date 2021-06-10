@@ -1,16 +1,16 @@
-
 /*-------------------------------------*/
 
 /* README */
 
-// entry
+// # Structjr
 
+//TODO: Currently, `CalculatorGUI.cart` and `CalculatorGUI.subtotalEntryMap` are synchronized manually though they are semantically linked strongly.
 
 /*-------------------------------------*/
 
 /* import */
 
-package com.example;
+package com.gui;
 
 import java.io.File;
 import java.util.List;
@@ -22,6 +22,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.imageio.*;
 
+import com.example.Calculator;
+
 /*-------------------------------------*/
 
 /* CalculatorGUI */
@@ -32,18 +34,18 @@ public class CalculatorGUI extends JFrame {
 
     //GUI {
 
-    static JFrame frame;
+    private static JFrame frame;
  
-    static JPanel panel1; //left panel
-    static JPanel panel2; //right panel
+    private static JPanel panel1; //left panel
+    public static JPanel panel2; //right panel
  
-    static JTextField totalAmountDisplay;
+    private static JTextField totalAmountDisplay;
 
     private static final String windowTitle  = "SuperMarket Calculator";
     private static final int    windowWidth  = 1000;
     private static final int    windowHeight = 400;
 
-    static Color defaultBgColor = Color.gray;
+    public static Color defaultBgColor = Color.gray;
 
     //} GUI
 
@@ -51,9 +53,9 @@ public class CalculatorGUI extends JFrame {
 
     private static Calculator calculator;
 
-    static Map<String, Integer> cart;
+    public static Map<String, Integer> cart;
 
-    static Map<String, SubtotalEntry> subtotalEntryMap;
+    public static Map<String, SubtotalEntry> subtotalEntryMap;
 
     //Maps a Japanese product name to its English version.
     //This is needed since the names of the products are internally handled in English.
@@ -170,6 +172,18 @@ public class CalculatorGUI extends JFrame {
         CalculatorGUI.cart.remove(productName);
         CalculatorGUI.panel2.remove(CalculatorGUI.subtotalEntryMap.get(productName).panel);
         CalculatorGUI.subtotalEntryMap.remove(productName);
+        CalculatorGUI.recalculateTotalAmountDisplay();
+        CalculatorGUI.redraw();
+    }
+
+    public static void removeAllSubtotalEntry() {
+        CalculatorGUI.cart.clear();
+        for (final String key: CalculatorGUI.subtotalEntryMap.keySet()) {
+            CalculatorGUI.panel2.remove(CalculatorGUI.subtotalEntryMap.get(key).panel);
+        }
+        CalculatorGUI.subtotalEntryMap.clear();
+        CalculatorGUI.recalculateTotalAmountDisplay();
+        CalculatorGUI.redraw();
     }
 
     public static void redraw() {
@@ -278,8 +292,8 @@ class IconGenerator {
 
     private static final String iconDirectory = "./icons/";
 
-    static Map<String, String> iconPathMap; //maps a product name to its icon path
-    static Map<String, String> miniIconPathMap; //ditto but with smaller icons
+    private static Map<String, String> iconPathMap; //maps a product name to its icon path
+    private static Map<String, String> miniIconPathMap; //ditto but with smaller icons
 
     static {
 
@@ -342,13 +356,7 @@ class IconGenerator {
 class AllResetButtonHandler implements ActionListener {
 
     public void actionPerformed(ActionEvent event) {
-        CalculatorGUI.cart.clear();
-        for (final String key: CalculatorGUI.subtotalEntryMap.keySet()) {
-            CalculatorGUI.panel2.remove(CalculatorGUI.subtotalEntryMap.get(key).panel);
-        }
-        CalculatorGUI.subtotalEntryMap.clear();
-        CalculatorGUI.recalculateTotalAmountDisplay();
-        CalculatorGUI.redraw();
+        CalculatorGUI.removeAllSubtotalEntry();
     }
 
 }
@@ -367,8 +375,6 @@ class ResetButtonHandler implements ActionListener {
 
     public void actionPerformed(ActionEvent event) {
         CalculatorGUI.removeSubtotalEntry(this.productName);
-        CalculatorGUI.recalculateTotalAmountDisplay();
-        CalculatorGUI.redraw();
     }
 
 }
@@ -399,9 +405,9 @@ class IncrementButtonHandler implements ActionListener {
             quantity += this.numIncrement;
             CalculatorGUI.cart.put(this.productName, quantity);
             CalculatorGUI.subtotalEntryMap.get(productName).setSubtotalLabelText(productName, quantity);
+            CalculatorGUI.recalculateTotalAmountDisplay();
+            CalculatorGUI.redraw();
         }
-        CalculatorGUI.recalculateTotalAmountDisplay();
-        CalculatorGUI.redraw();
     }
 
 }
