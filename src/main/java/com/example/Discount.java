@@ -64,9 +64,9 @@ public class Discount {
         final int numSalmon = purchasedProductMap.getOrDefault(Product.SALMON_BENTO, 0);
         final int numDrink = purchasedProductMap.getOrDefault(Product.COFFEE, 0) + purchasedProductMap.getOrDefault(Product.TEA, 0);
 
-        int regNori = this.discountedProductMap.getOrDefault(Product.NORI_BENTO, 0);
-        int regSalmon = this.discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0);
-        int totalDiscount = regNori + regSalmon;
+        int discountForNori = this.discountedProductMap.getOrDefault(Product.NORI_BENTO, 0);
+        int discountForSalmon = this.discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0);
+        int totalDiscount = discountForNori + discountForSalmon;
 
         //In this `for` loop, we compare all the possible discount patterns to get the maximum discount.
         //`i` means how many drinks are assigned to "noriBento"; the remaining `numDrink - i` drinks are assinged to "salmonBento".
@@ -96,8 +96,8 @@ public class Discount {
 //             final int discountSalmon = Math.min(this.discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0), -20 * (numDrink - i));
 // 
 //             if (discountNori + discountSalmon < totalDiscount) {
-//                 regNori = discountNori;
-//                 regSalmon = discountSalmon;
+//                 discountForNori = discountNori;
+//                 discountForSalmon = discountSalmon;
 //                 totalDiscount = discountNori + discountSalmon;
 //                 // System.out.println(i);
 //                 // System.out.println(totalDiscount);
@@ -115,15 +115,15 @@ public class Discount {
             final int discountSalmon = Math.min(discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0), - 20 * numDrinkForSalmon);
 
             if (discountNori + discountSalmon < totalDiscount) {
-                regNori = discountNori;
-                regSalmon = discountSalmon;
+                discountForNori = discountNori;
+                discountForSalmon = discountSalmon;
                 totalDiscount = discountNori + discountSalmon;
             }
 
         }
 
-        this.discountedProductMap.replace(Product.NORI_BENTO, regNori);
-        this.discountedProductMap.replace(Product.SALMON_BENTO, regSalmon);
+        this.discountedProductMap.replace(Product.NORI_BENTO, discountForNori);
+        this.discountedProductMap.replace(Product.SALMON_BENTO, discountForSalmon);
 
     }
 
