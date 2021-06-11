@@ -9,26 +9,13 @@ public class Discount {
 
     public Discount() {
         this.discountedProductMap = new HashMap<>();
-//         for (Product product: purchasedProductMap.keySet()) {
-//             this.discountedProductMap.put(product, 0);
-//         }
-        for (Product product: Product.values()) {
-            this.discountedProductMap.put(product, 0);
-        }
     }
 
     public int calcDiscount(Map<Product, Integer> purchasedProductMap) {
 
-        // int numApple = purchasedProductMap.getOrDefault(Product.APPLE, 0);
-        // int discountValue = 0;
-        // discountValue -= (numApple / 3)*20;
-
-        //Bento discount
-        // if((purchasedProductMap.containsKey(Product.NORI_BENTO) || purchasedProductMap.containsKey(Product.SALMON_BENTO))
-        //         && (purchasedProductMap.containsKey(Product.TEA)||purchasedProductMap.containsKey(Product.COFFEE)))
-        // {
-        //     discountValue -= 20;
-        // }
+        for (Product product: purchasedProductMap.keySet()) {
+            this.discountedProductMap.put(product, 0);
+        }
 
         this.defaultDiscount(purchasedProductMap);
         this.appleDiscount(purchasedProductMap);
@@ -61,12 +48,14 @@ public class Discount {
     }
 
     private void lighterDiscount(Map<Product, Integer> purchasedProductMap) {
-        final int price = Product.LIGHTER.getPrice();
-        final int numCigarette = purchasedProductMap.getOrDefault(Product.CIGARETTE, 0);
-        final int numMentholCigarette = purchasedProductMap.getOrDefault(Product.MENTHOL_CIGARETTE, 0);
-        final int discountSetPrice = - price * ((numCigarette + numMentholCigarette) / 10);
-        final int updateDiscountValue = Math.min(this.discountedProductMap.get(Product.LIGHTER), discountSetPrice);
-        this.discountedProductMap.replace(Product.LIGHTER, updateDiscountValue);
+        if (purchasedProductMap.containsKey(Product.LIGHTER)) {
+            final int price = Product.LIGHTER.getPrice();
+            final int numCigarette = purchasedProductMap.getOrDefault(Product.CIGARETTE, 0);
+            final int numMentholCigarette = purchasedProductMap.getOrDefault(Product.MENTHOL_CIGARETTE, 0);
+            final int discountSetPrice = - price * ((numCigarette + numMentholCigarette) / 10);
+            final int updateDiscountValue = Math.min(this.discountedProductMap.get(Product.LIGHTER), discountSetPrice);
+            this.discountedProductMap.replace(Product.LIGHTER, updateDiscountValue);
+        }
     }
 
     private void bentoDiscount(Map<Product, Integer> purchasedProductMap) {
@@ -103,8 +92,8 @@ public class Discount {
 //                 continue;
 //             }
 // 
-//             final int discountNori = Math.min(discountedProductMap.getOrDefault(Product.NORI_BENTO, 0), -20 * i);
-//             final int discountSalmon = Math.min(discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0), -20 * (numDrink - i));
+//             final int discountNori = Math.min(this.discountedProductMap.getOrDefault(Product.NORI_BENTO, 0), -20 * i);
+//             final int discountSalmon = Math.min(this.discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0), -20 * (numDrink - i));
 // 
 //             if (discountNori + discountSalmon < totalDiscount) {
 //                 regNori = discountNori;
@@ -122,8 +111,8 @@ public class Discount {
             final int numDrinkForNori = Math.min(i, numNori);
             final int numDrinkForSalmon = Math.min(numDrink - i, numSalmon);
 
-            final int discountNori = Math.min(discountedProductMap.getOrDefault(Product.NORI_BENTO, 0), -20 * numDrinkForNori);
-            final int discountSalmon = Math.min(discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0), -20 * numDrinkForSalmon);
+            final int discountNori = Math.min(discountedProductMap.getOrDefault(Product.NORI_BENTO, 0), - 20 * numDrinkForNori);
+            final int discountSalmon = Math.min(discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0), - 20 * numDrinkForSalmon);
 
             if (discountNori + discountSalmon < totalDiscount) {
                 regNori = discountNori;
