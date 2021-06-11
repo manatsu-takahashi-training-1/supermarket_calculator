@@ -7,3 +7,4 @@ public interface CalcInterface {
     public int calculate(Map<String, Integer> purchasedProductStringMap);
 
 }
+

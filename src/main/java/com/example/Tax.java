@@ -1,22 +1,12 @@
 package com.example;
 
 public class Tax {
-    int beforeTax;
 
-    // Here is the constructor
-    public Tax(int beforeTax) {
-        this.beforeTax = beforeTax;
-        if (beforeTax < 0) {
-            throw new RuntimeException();
-        }
-    }
+    private final int taxRateInPercent = 8;
 
-    //calculating the sales tax here.
     public int getTaxIncludedPrice(int beforeTax) {
-        final int taxRate = 108;    // Sales tax = 8%
-        int temp = beforeTax * taxRate / 100;
-        int afterTax = temp;       //apply tax
-        return afterTax;
+        return (beforeTax * (100 + taxRateInPercent) / 100);
     }
 
 }
+

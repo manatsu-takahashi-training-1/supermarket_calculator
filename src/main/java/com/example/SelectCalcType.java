@@ -7,11 +7,13 @@ public enum SelectCalcType {
 
     private final CalcInterface calcInterface;
 
-    SelectCalcType(CalcInterface calcInterface){
+    private SelectCalcType(CalcInterface calcInterface) {
         this.calcInterface = calcInterface;
     }
 
     public CalcInterface getCalcInterface() {
-        return calcInterface;
+        return this.calcInterface;
     }
+
 }
+
