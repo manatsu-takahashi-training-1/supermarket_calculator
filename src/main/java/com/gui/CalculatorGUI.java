@@ -181,6 +181,7 @@ public class CalculatorGUI extends JFrame {
         } else {
             CalculatorGUI.isTimeSale = true;
         }
+        BGM.toggle();
         CalculatorGUI.recalculateTotalAmountDisplay();
     }
 
