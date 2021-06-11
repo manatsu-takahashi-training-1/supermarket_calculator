@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-package_name='com.example'
-
 function mvn() {
     if [[ $# == 0 || $1 == "help" ]]; then
         echo "Usage
@@ -17,7 +15,7 @@ function mvn() {
         local class_name="$2"
         shift 2
         command mvn compile exec:java \
-                            --define exec.mainClass="${package_name}.${class_name}" \
+                            --define exec.mainClass="${class_name}" \
                             --define exec.args="$*"
     elif [[ $1 == "runtest" || $1 == "testrun" ]]; then
         if [[ $# != 2 ]]; then
@@ -25,7 +23,7 @@ function mvn() {
             return 1
         fi
         local class_name="$2"
-        command mvn test-compile exec:java --define exec.classpathScope='test' --define exec.mainClass="${package_name}.${class_name}"
+        command mvn test-compile exec:java --define exec.classpathScope='test' --define exec.mainClass="${class_name}"
     else
         command mvn "$@"
     fi
