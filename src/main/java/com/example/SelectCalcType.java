@@ -2,7 +2,7 @@ package com.example;
 
 public enum SelectCalcType {
 
-    NOMAL(new Calculator()),
+    NORMAL(new Calculator()),
     FLASH_HUM(new TimeSale());
 
     private final CalcInterface calcInterface;

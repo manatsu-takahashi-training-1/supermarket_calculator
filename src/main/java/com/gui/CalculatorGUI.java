@@ -9,8 +9,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.imageio.*;
 
-import com.example.Calculator;
-import com.gui.CalculatorMock;
+import com.example.CalcInterface;
+import com.example.SelectCalcType;
 
 public class CalculatorGUI extends JFrame {
 
@@ -33,8 +33,7 @@ public class CalculatorGUI extends JFrame {
 
     //CUI {
 
-    private static Calculator calculator;
-//     private static CalculatorMock calculator;
+    private static boolean isTimeSale = false;
 
     public static Map<String, Integer> cart;
 
@@ -50,9 +49,6 @@ public class CalculatorGUI extends JFrame {
 
         //CUI
         {
-
-            CalculatorGUI.calculator = new Calculator();
-//             CalculatorGUI.calculator = new CalculatorMock();
 
             CalculatorGUI.cart = new HashMap<>();
             CalculatorGUI.subtotalEntryMap = new HashMap<>();
@@ -108,8 +104,7 @@ public class CalculatorGUI extends JFrame {
                     new JButton("<html>メンソールタバコ<br/>(440円)</html>",    IconGenerator.generateIcon("メンソールタバコ")),
                     new JButton("<html>ライター<br/>(100円)</html>",            IconGenerator.generateIcon("ライター")),
                     new JButton("<html>お茶<br/>(80円)</html>",                 IconGenerator.generateIcon("お茶")),
-                    new JButton("<html>コーヒー<br/>(100円)</html>",            IconGenerator.generateIcon("コーヒー")),
-                    new JButton("<html>光のハンバーガー<br/>(？？？円)</html>", IconGenerator.generateIcon("光のハンバーガー"))
+                    new JButton("<html>コーヒー<br/>(100円)</html>",            IconGenerator.generateIcon("コーヒー"))
                 );
             } catch (Exception e) {
                 ;
@@ -119,6 +114,10 @@ public class CalculatorGUI extends JFrame {
                 productButton.addActionListener(new ProductButtonHandler());
                 CalculatorGUI.panel1.add(productButton);
             }
+
+            JButton flashHamburgerButton = new JButton("<html>光のハンバーガー<br/>(？？？円)</html>", IconGenerator.generateIcon("光のハンバーガー"));
+            flashHamburgerButton.addActionListener(new FlashHamburgerButtonHandler());
+            CalculatorGUI.panel1.add(flashHamburgerButton);
 
             JButton allResetButton = null;
             try {
@@ -150,7 +149,12 @@ public class CalculatorGUI extends JFrame {
             final String newProductName = CalculatorGUI.nameMap.get(oldProductName);
             purchasedProductMap.put(newProductName, CalculatorGUI.cart.get(oldProductName));
         }
-        totalAmountDisplay.setText(String.format("%,8d 円", CalculatorGUI.calculator.calculate(purchasedProductMap)));
+        totalAmountDisplay.setText(
+            String.format(
+                "%,8d 円",
+                (CalculatorGUI.isTimeSale ? SelectCalcType.FLASH_HUM : SelectCalcType.NORMAL).getCalcInterface().calculate(purchasedProductMap)
+            )
+        );
     }
     
     public static void removeSubtotalEntry(String productName) {
@@ -169,6 +173,15 @@ public class CalculatorGUI extends JFrame {
         CalculatorGUI.subtotalEntryMap.clear();
         CalculatorGUI.recalculateTotalAmountDisplay();
         CalculatorGUI.redraw();
+    }
+
+    public static void toggleTimeSale() {
+        if (CalculatorGUI.isTimeSale) {
+            CalculatorGUI.isTimeSale = false;
+        } else {
+            CalculatorGUI.isTimeSale = true;
+        }
+        CalculatorGUI.recalculateTotalAmountDisplay();
     }
 
     public static void redraw() {

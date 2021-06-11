@@ -2,7 +2,7 @@ package com.example;
 
 import java.util.Map;
 
-public class Calculator implements CalcInterface{
+public class Calculator implements CalcInterface {
     @Override
     public int calculate(Map<String, Integer> purchasedProductStringMap) {
         CreateProductMap createProductMap = new CreateProductMap();
