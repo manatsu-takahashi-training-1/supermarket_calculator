@@ -3,6 +3,7 @@ package com.gui;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
  
 import java.awt.*;
 import java.awt.event.*;
@@ -54,7 +55,7 @@ public class CalculatorGUI extends JFrame {
         //CUI
         {
 
-            CalculatorGUI.productButtonMap = new HashMap<>();
+            CalculatorGUI.productButtonMap = new LinkedHashMap<>();
 
             CalculatorGUI.cart = new HashMap<>();
             CalculatorGUI.subtotalEntryMap = new HashMap<>();

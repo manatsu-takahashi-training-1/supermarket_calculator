@@ -1,104 +1,134 @@
 package com.example;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Discount {
+
+    private Map<Product, Integer> discountedProductMap;
+
+    public Discount() {
+        this.discountedProductMap = new HashMap<>();
+    }
+
     public int calcDiscount(Map<Product, Integer> purchasedProductMap) {
-        // int numApple = purchasedProductMap.getOrDefault(Product.APPLE, 0);
-        // int discountValue = 0;
-        // discountValue -= (numApple / 3)*20;
 
-        //Bento discount
-        // if((purchasedProductMap.containsKey(Product.NORI_BENTO) || purchasedProductMap.containsKey(Product.SALMON_BENTO))
-        //         && (purchasedProductMap.containsKey(Product.TEA)||purchasedProductMap.containsKey(Product.COFFEE)))
-        // {
-        //     discountValue -= 20;
-        // }
-
-
-        // init discountedProductMap
-        Map<Product, Integer> discountedProductMap = new HashMap<>();
-        for (Product product : purchasedProductMap.keySet()){
-            discountedProductMap.put(product, 0);
+        for (Product product: purchasedProductMap.keySet()) {
+            this.discountedProductMap.put(product, 0);
         }
-        discountedProductMap = defaultDiscount(purchasedProductMap, discountedProductMap);
-        discountedProductMap = appleDiscount(purchasedProductMap, discountedProductMap);
-        discountedProductMap = lighterDiscount(purchasedProductMap, discountedProductMap);
-        discountedProductMap = bentoDiscount(purchasedProductMap, discountedProductMap);
+
+        this.defaultDiscount(purchasedProductMap);
+        this.appleDiscount(purchasedProductMap);
+        this.lighterDiscount(purchasedProductMap);
+        this.bentoDiscount(purchasedProductMap);
 
         int discountValue = 0;
-        for (Product product : purchasedProductMap.keySet()){
-            discountValue += discountedProductMap.get(product);
+        for (Product product: purchasedProductMap.keySet()){
+            discountValue += this.discountedProductMap.get(product);
         }
 
         return discountValue;
+
     }
 
-
-
-
-
-    private Map<Product, Integer> defaultDiscount(Map<Product, Integer> purchasedProductMap, Map<Product, Integer> discountedProductMap) {
-        for (Product product : purchasedProductMap.keySet()){
-            Integer updateDiscounteValue = Math.min(discountedProductMap.get(product), -purchasedProductMap.get(product)/11 *product.getPrice());
-            discountedProductMap.replace(product,updateDiscounteValue);
+    private void defaultDiscount(Map<Product, Integer> purchasedProductMap) {
+        for (Product product: purchasedProductMap.keySet()) {
+            final int updateDiscountValue = Math.min(this.discountedProductMap.get(product), - purchasedProductMap.get(product) / 11 * product.getPrice());
+            this.discountedProductMap.replace(product, updateDiscountValue);
         }
-        return discountedProductMap;
     }
 
-    private Map<Product, Integer> appleDiscount(Map<Product, Integer> purchasedProductMap, Map<Product, Integer> discountedProductMap){
-        int price = Product.APPLE.getPrice();
-        int num = purchasedProductMap.getOrDefault(Product.APPLE,0);
-        int discountSetPrice = - 20 * (num/3);
-        Integer updateDiscounteValue =  Math.min(discountSetPrice, discountedProductMap.getOrDefault(Product.APPLE, 0));
-        discountedProductMap.replace(Product.APPLE,updateDiscounteValue);
-        return discountedProductMap;
+    private void appleDiscount(Map<Product, Integer> purchasedProductMap) {
+        if (purchasedProductMap.containsKey(Product.APPLE)) {
+            final int num = purchasedProductMap.get(Product.APPLE);
+            final int discountSetPrice = - 20 * (num / 3);
+            final int updateDiscountValue =  Math.min(this.discountedProductMap.get(Product.APPLE), discountSetPrice);
+            this.discountedProductMap.replace(Product.APPLE, updateDiscountValue);
+        }
     }
 
-    private Map<Product, Integer> lighterDiscount(Map<Product, Integer> purchasedProductMap, Map<Product, Integer> discountedProductMap){
-        int price = Product.LIGHTER.getPrice();
-        int numCigarette = purchasedProductMap.getOrDefault(Product.CIGARETTE,0);
-        int numMentholCigarette = purchasedProductMap.getOrDefault(Product.MENTHOL_CIGARETTE,0);
-
-        int discountSetPrice = - price * ((numCigarette + numMentholCigarette)/10);
-        Integer updateDiscounteValue =  Math.min(discountSetPrice,discountedProductMap.getOrDefault(Product.LIGHTER, 0));
-        discountedProductMap.replace(Product.LIGHTER,updateDiscounteValue);
-        return discountedProductMap;
+    private void lighterDiscount(Map<Product, Integer> purchasedProductMap) {
+        if (purchasedProductMap.containsKey(Product.LIGHTER)) {
+            final int price = Product.LIGHTER.getPrice();
+            final int numCigarette = purchasedProductMap.getOrDefault(Product.CIGARETTE, 0);
+            final int numMentholCigarette = purchasedProductMap.getOrDefault(Product.MENTHOL_CIGARETTE, 0);
+            final int discountSetPrice = - price * ((numCigarette + numMentholCigarette) / 10);
+            final int updateDiscountValue = Math.min(this.discountedProductMap.get(Product.LIGHTER), discountSetPrice);
+            this.discountedProductMap.replace(Product.LIGHTER, updateDiscountValue);
+        }
     }
 
-    private Map<Product, Integer> bentoDiscount(Map<Product, Integer> purchasedProductMap, Map<Product, Integer> discountedProductMap){
-        int numNori = purchasedProductMap.getOrDefault(Product.NORI_BENTO,0);
-        int numSalmon = purchasedProductMap.getOrDefault(Product.SALMON_BENTO,0);
-        int numTea = purchasedProductMap.getOrDefault(Product.COFFEE,0) + purchasedProductMap.getOrDefault(Product.TEA,0);
+    private void bentoDiscount(Map<Product, Integer> purchasedProductMap) {
 
-        int regNori = discountedProductMap.getOrDefault(Product.NORI_BENTO, 0);
-        int regSalmon = discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0);
-        int totalDiscount = regNori + regSalmon;
+        final int numNori = purchasedProductMap.getOrDefault(Product.NORI_BENTO, 0);
+        final int numSalmon = purchasedProductMap.getOrDefault(Product.SALMON_BENTO, 0);
+        final int numDrink = purchasedProductMap.getOrDefault(Product.COFFEE, 0) + purchasedProductMap.getOrDefault(Product.TEA, 0);
 
+        int discountForNori = this.discountedProductMap.getOrDefault(Product.NORI_BENTO, 0);
+        int discountForSalmon = this.discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0);
+        int totalDiscount = discountForNori + discountForSalmon;
 
-        for (int i = 0 ; i <= numTea ; i++){
-            if((i > numNori)||((numTea-i)) > numSalmon){
-                continue;
-            }
-            int discountNori = Math.min(discountedProductMap.getOrDefault(Product.NORI_BENTO, 0), -20 * i);
-            int discountSalmon = Math.min(discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0), -20 * (numTea - i));
-            if(totalDiscount > discountNori + discountSalmon){
-                regNori = discountNori;
-                regSalmon = discountSalmon;
+        //In this `for` loop, we compare all the possible discount patterns to get the maximum discount.
+        //`i` means how many drinks are assigned to "noriBento"; the remaining `numDrink - i` drinks are assinged to "salmonBento".
+        //
+        //TODO
+        //Currently there is a bug where the discount becoms zero under some condition.
+        //Considering the condition which doesn't invoke `continue`,
+        //  NOT (A OR B)
+        //  = (NOT A) AND (NOT B)
+        //  = (i <= numNori) && ((numDrink - i) <= numSalmon)
+        //  = (i <= numNori) && ((numDrink - numSalmon) <= i)
+        //To this to be archieved,
+        //  numDrink - numSalmon <= numNori
+        //  -> numDrink <= numNori + numSalmon
+        //shall be fullfilled.
+        //This condition is however incomplete; consider the following situation for example.
+        //  numDrink == 4
+        //  numNori == 1
+        //  numSalmon == 2
+//         for (int i = 0; i <= numDrink; ++i) {
+// 
+//             if ((i > numNori) || ((numDrink - i) > numSalmon)) {
+//                 continue;
+//             }
+// 
+//             final int discountNori = Math.min(this.discountedProductMap.getOrDefault(Product.NORI_BENTO, 0), -20 * i);
+//             final int discountSalmon = Math.min(this.discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0), -20 * (numDrink - i));
+// 
+//             if (discountNori + discountSalmon < totalDiscount) {
+//                 discountForNori = discountNori;
+//                 discountForSalmon = discountSalmon;
+//                 totalDiscount = discountNori + discountSalmon;
+//                 // System.out.println(i);
+//                 // System.out.println(totalDiscount);
+//             }
+// 
+//         }
+
+        //bug fix version of the exhaustive search right above
+        for (int i = 0; i <= numDrink; ++i) {
+
+            final int numDrinkForNori = Math.min(i, numNori);
+            final int numDrinkForSalmon = Math.min(numDrink - i, numSalmon);
+
+            final int discountNori = Math.min(discountedProductMap.getOrDefault(Product.NORI_BENTO, 0), - 20 * numDrinkForNori);
+            final int discountSalmon = Math.min(discountedProductMap.getOrDefault(Product.SALMON_BENTO, 0), - 20 * numDrinkForSalmon);
+
+            if (discountNori + discountSalmon < totalDiscount) {
+                discountForNori = discountNori;
+                discountForSalmon = discountSalmon;
                 totalDiscount = discountNori + discountSalmon;
-                System.out.println(i);
-                System.out.println(totalDiscount);
             }
-
 
         }
 
-        discountedProductMap.replace(Product.NORI_BENTO, regNori);
-        discountedProductMap.replace(Product.SALMON_BENTO, regSalmon);
+        this.discountedProductMap.replace(Product.NORI_BENTO, discountForNori);
+        this.discountedProductMap.replace(Product.SALMON_BENTO, discountForSalmon);
 
-        return discountedProductMap;
     }
+
 }
+
 // purchasedProductMap
 // Map<Product, Integer> = <Product, 割引額>
 
@@ -117,5 +147,4 @@ public class Discount {
 // 6, 0: (min(-100, -120), 0)
 // 5, 1: (min(-100, -100), -20)
 // 4, 2: (min(-100, -80), -40)
-
 

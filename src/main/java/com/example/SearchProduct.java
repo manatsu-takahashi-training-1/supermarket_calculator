@@ -7,20 +7,19 @@ public class SearchProduct {
 
     private final Map<String, Product> productMap;
 
-    SearchProduct(){
+    public SearchProduct() {
 
-        productMap= new HashMap<>();
+        this.productMap = new HashMap<>();
 
-        Product[] products = Product.values();
-        for (Product product : products){
-            productMap.put(product.getProductName(), product);
+        for (Product product: Product.values()) {
+            this.productMap.put(product.getProductName(), product);
         }
 
     }
 
-    public Product search(String productName) throws NullPointerException{
-        return productMap.get(productName);
+    public Product search(String productName) throws NullPointerException {
+        return this.productMap.get(productName);
     }
 
-
 }
+

@@ -9,7 +9,7 @@ class TaxTest {
     public class ちゃんと計算できているかテスト {
         @Test
         public void _100円を入れて108円になってるかな() {
-            Tax test = new Tax(100);
+            Tax test = new Tax();
             int actual = test.getTaxIncludedPrice(100);
             assertEquals(108,actual);
         }
