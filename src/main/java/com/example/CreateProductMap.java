@@ -17,7 +17,7 @@ public class CreateProductMap {
 
         for (final String productName: purchasedMap.keySet()) {
             Product product = s.search(productName);
-            productMap.put(product, purchasedMap.get(product.getProductName())); //TODO
+            productMap.put(product, purchasedMap.get(productName));
         }
 
         return productMap;
