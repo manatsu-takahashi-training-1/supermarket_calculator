@@ -2,8 +2,9 @@ package com.example;
 
 import java.util.Map;
 
-public class TimeSale {
-    public int calcSale(Map<String, Integer> purchasedProductStringMap) {
+public class TimeSale implements CalcInterface{
+    @Override
+    public int calculate(Map<String, Integer> purchasedProductStringMap) {
         CreateProductMap createProductMap = new CreateProductMap();
 
         Map<Product, Integer> purchasedProductMap = createProductMap.create(purchasedProductStringMap);

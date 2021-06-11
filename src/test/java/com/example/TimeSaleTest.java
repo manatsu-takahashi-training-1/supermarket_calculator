@@ -25,14 +25,14 @@ public class TimeSaleTest {
         @Test
         void りんご10個で0円出力する() {
             purchasedProductStringMap.put("apple", 0);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(0, bonusValue);
         }
 
         @Test
         void りんご11個でー100円出力する() {
             purchasedProductStringMap.put("apple", 1);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(1 * 108 / 100, bonusValue);
         }
     }
@@ -42,14 +42,14 @@ public class TimeSaleTest {
         @Test
         void みかん10個で0円出力する() {
             purchasedProductStringMap.put("orange", 0);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(0, bonusValue);
         }
 
         @Test
         void みかん11個でーx円出力する() {
             purchasedProductStringMap.put("orange", 1);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(1 * 108 / 100, bonusValue);
         }
     }
@@ -59,14 +59,14 @@ public class TimeSaleTest {
         @Test
         void ぶどう10個で0円出力する() {
             purchasedProductStringMap.put("grape", 0);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(0, bonusValue);
         }
 
         @Test
         void ぶどう11個でーx円出力する() {
             purchasedProductStringMap.put("grape", 1);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(1 * 108 / 100, bonusValue);
         }
     }
@@ -76,14 +76,14 @@ public class TimeSaleTest {
         @Test
         void のり弁10個で0円出力する() {
             purchasedProductStringMap.put("noriBento", 0);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(0, bonusValue);
         }
 
         @Test
         void のり弁11個でーx円出力する() {
             purchasedProductStringMap.put("noriBento", 1);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(1 * 108 / 100, bonusValue);
         }
     }
@@ -93,14 +93,14 @@ public class TimeSaleTest {
         @Test
         void シャケ弁10個で0円出力する() {
             purchasedProductStringMap.put("salmonBento", 0);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(0, bonusValue);
         }
 
         @Test
         void シャケ弁11個でーx円出力する() {
             purchasedProductStringMap.put("salmonBento", 1);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(1 * 108 / 100, bonusValue);
         }
     }
@@ -110,14 +110,14 @@ public class TimeSaleTest {
         @Test
         void タバコ10個で0円出力する() {
             purchasedProductStringMap.put("cigarette", 0);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(0, bonusValue);
         }
 
         @Test
         void tタバコ11個でーx円出力する() {
             purchasedProductStringMap.put("cigarette", 1);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(1 * 108 / 100, bonusValue);
         }
     }
@@ -127,14 +127,14 @@ public class TimeSaleTest {
         @Test
         void メンソールタバコ10個で0円出力する() {
             purchasedProductStringMap.put("mentholCigarette", 0);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(0, bonusValue);
         }
 
         @Test
         void メンソールタバコ11個でーx円出力する() {
             purchasedProductStringMap.put("mentholCigarette", 1);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(1 * 108 / 100, bonusValue);
         }
     }
@@ -144,14 +144,14 @@ public class TimeSaleTest {
         @Test
         void お茶10個で0円出力する() {
             purchasedProductStringMap.put("tea", 0);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(0, bonusValue);
         }
 
         @Test
         void お茶11個でーx円出力する() {
             purchasedProductStringMap.put("tea", 1);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(1 * 108 / 100, bonusValue);
         }
     }
@@ -161,14 +161,14 @@ public class TimeSaleTest {
         @Test
         void コーヒー10個で0円出力する() {
             purchasedProductStringMap.put("coffee", 0);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(0, bonusValue);
         }
 
         @Test
         void コーヒー11個でーx円出力する() {
             purchasedProductStringMap.put("coffee", 1);
-            int bonusValue = timeSale.calcSale(purchasedProductStringMap);
+            int bonusValue = timeSale.calculate(purchasedProductStringMap);
             assertEquals(1 * 108 / 100, bonusValue);
         }
     }
