@@ -33,8 +33,8 @@ public class CalculatorGUI extends JFrame {
 
     //CUI {
 
-//     private static Calculator calculator;
-    private static CalculatorMock calculator;
+    private static Calculator calculator;
+//     private static CalculatorMock calculator;
 
     public static Map<String, Integer> cart;
 
@@ -51,8 +51,8 @@ public class CalculatorGUI extends JFrame {
         //CUI
         {
 
-//             CalculatorGUI.calculator = new Calculator();
-            CalculatorGUI.calculator = new CalculatorMock();
+            CalculatorGUI.calculator = new Calculator();
+//             CalculatorGUI.calculator = new CalculatorMock();
 
             CalculatorGUI.cart = new HashMap<>();
             CalculatorGUI.subtotalEntryMap = new HashMap<>();
